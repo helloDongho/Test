@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* font-css */
+
+@font-face {
+    font-family: "Caveat-Regular";
+    src: url(font/static/Caveat-Regular.ttf);
+}
+@font-face {
+    font-family: "Caveat-Medium";
+    src: url(font/static/Caveat-Medium.ttf);
+}
+@font-face {
+    font-family: "Caveat-SemiBold";
+    src: url(font/static/Caveat-SemiBold.ttf);
+}
+@font-face {
+    font-family: "Caveat-Bold";
+    src: url(font/static/Caveat-Bold.ttf);
+}
+@font-face {
+    font-family: "Stylish-Regular";
+    src: url(font/Stylish/Stylish-Regular.ttf);
+}
+
+header {
+    display:flex;
+    justify-content: space-between;
+    height: 100px;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+}
+p {
+    font-family: "Stylish-Regular";
+    color:#A13333;
+    font-size: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-top: 100px;
+    background-image: url(background/images.jpg);
+    background-size: cover;
+}
+#Calculator {
+    width: 20%;
+    height: 480px;
+    border: 1px solid #A13333;
+    background-color: #040303;
+}
+ #Input-Nums {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 80px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #b3541E;
+}
+.Number {
+    font-family:"caveat-SemiBold";
+    font-size: 25px;
+    text-align: center;
+    width: 30%;
+    height: 40px;
+} 
+#Option-Btns {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 70px;
+    margin-top: 10px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    color: #f2f2f2;
+    background-color: #b3541E;
+}
+.OpBtns {
+    font-family: "Caveat-Medium";
+    width: 30%;
+    height: 50px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+.OpBtns:active {
+    box-shadow: 4px 4px 4px #bbbbbb;
+}
+.OpBtns:hover {
+    background-color: #171717;
+}
+#Num-Btns-container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    height: 270px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    background-color: #A13333;
+
+}
+#top-Btn-container {
+    width:100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.TopBtnNum {
+    font-family: "Caveat-Bold";
+    height: 55px;
+    width: 30%;
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #461111;
+    text-align: center;
+}
+.TopBtnNum:active {
+    box-shadow: 4px 4px 4px #bbbbbb;
+}
+.TopBtnNum:hover {
+    background-color: #717171;
+}
+#middle-Btn-container {
+    margin-top: 10px;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.MidBtnNum {
+    font-family: "Caveat-Bold";
+    background-color: #461111;
+    height: 55px;
+    width: 30%;
+    font-size: 30px;
+    cursor: pointer;
+    text-align: center;
+}
+.MidBtnNum:active {
+    box-shadow: 4px 4px 4px #b3b3b3;
+}
+.MidBtnNum:hover {
+    background-color: #818181;
+}
+#bottom-Btn-container {
+    margin-top: 10px;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.BotBtnNum {
+    font-family: "Caveat-Bold";
+    background-color: #461111;
+    height: 55px;
+    width: 30%;
+    font-size: 30px;
+    cursor: pointer;
+    text-align: center;
+}
+.BotBtnNum:active {
+    box-shadow: 4px 4px 4px #b7b7b7;
+}
+.BotBtnNum:hover {
+    background-color: #919191;
+}
+#dataTable {
+    margin-left: 5%;
+    width: 20%;
+    border: 1px solid #020202;
+}
+tr { 
+    border: 1px solid #020202;
+}
+td {
+    font-family: "Caveat-Medium";
+    border: 1px solid #020202;
+    background-color: #212121;
+    color: #f2f2f2;
+    font-size: 24px;
+}
+
+@media (max-width:1500px) {
+    #Calculator{
+        margin-left: 5px;
+    }
+    #dataTable {
+        margin-left: 5px;
+    }
+}
+@media (max-width:1127px) {
+    #Calculator {
+        width: 30%;
+    }
+    #dataTable {
+        width: 30%;
+    }
+}
+@media (max-width:830px) {
+    #Calculator {
+        width: 45%;
+    }
+    #dataTable {
+        width: 45%;
+    }
+}
+@media (max-width:630px) {
+    p {
+        font-size: 40px;
+    }
+
+}
+@media (max-width:565px) {
+    #Calculator {
+        width: 65%;
+    }
+    #dataTable {
+        width: 65%;
+    }
+    p {
+        font-size: 30px;
+    }
+}
+@media (max-width:510px) {
+    #Calculator {
+        width: 90%;
+    }
+    #dataTable {
+        width: 90%;
+    }
+}
+@media (max-width:400px) {
+    p {
+        font-size: 30px;
+    }
+    .OpBtns {
+        width: 40%;
+    }
+}

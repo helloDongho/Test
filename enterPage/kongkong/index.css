@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* font css */
+@font-face {
+    font-family: "Kalam-Bold";
+    src: url(font/Kalam-Bold.ttf);
+}
+@font-face {
+    font-family: "Kalam-Light";
+    src: url(font/Kalam-Light.ttf);
+}
+@font-face {
+    font-family: "Kalam-Regular";
+    src: url(font/Kalam-Regular.ttf);
+}
+header {
+    font-family: "Kalam-Bold";
+    color: #f2f2f2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    background-color: #151515;
+    font-size: 45px;
+    position: fixed;
+}
+main {
+    padding-top: 100px;
+    background-color: #301B3F;
+    height: 100vh;
+}
+#gameData{
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100% - 200px);
+    margin-left: auto;
+    margin-right: auto;
+    width: 45%;
+}
+.data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    background-color: #3C415C;
+    font-size: 24px;
+}
+#time {
+    font-family: "Kalam-Regular";
+    font-size: 32px;
+}
+
+#sec {
+    font-family: "Kalam-Regular";
+    font-size: 32px;
+    margin-left: 15px;
+}
+#number {
+    font-family: "Kalam-Light";
+    font-size: 24px;
+}
+#person {
+    font-family: "Kalam-Light";
+    font-size: 24px;
+    margin-left: 10px;
+}
+#suggest {
+    font-family: "Kalam-Regular";
+    font-size: 32px;
+}
+#text {
+    font-family: "Kalam-Regular";
+    font-size: 32px;
+    margin-left: 15px;
+}
+#inputAndEnter {
+    display: flex;
+    height: fit-content;
+    flex: 0 1 500px;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #B4A5A5;
+}
+#input-Text{
+    height: 50px;
+    flex-basis: 60%;
+}
+#sbmbutton {
+    font-family: "Kalam-Light";
+    font-size: 16px;
+    height: 50px;
+    flex-basis: 20%;
+}
+@media (max-width:1000px) {
+    #gameData {
+        width: 50%;
+    }
+}
+@media (max-width:700px) {
+    #gameData {
+        width: 55%;
+    }
+    header {
+        font-size: 38px;
+    }
+}
+
+@media (max-width:580px) {
+    #gameData {
+        width: 60%;
+    }
+    header {
+        font-size: 30px;
+    }
+}
+
+@media (max-width:465px) {
+    #gameData {
+        width: 65%;
+    }
+    header {
+        font-size: 24px;
+    }
+}
+@media (max-width:370px) {
+    #gameData {
+        width: 70%;
+    }
+    header {
+        font-size: 18px;
+    }
+}
+

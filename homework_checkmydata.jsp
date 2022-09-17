@@ -1,0 +1,144 @@
+<%@ page language="java" contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.DriverManager" %>  
+<%@ page import="java.sql.Connection" %>  
+<%@ page import="java.sql.PreparedStatement" %> 
+<%@ page import="java.sql.ResultSet" %> 
+<%@ page import="java.util.ArrayList" %>
+<%
+    request.setCharacterEncoding("utf-8");
+    Class.forName("com.mysql.jdbc.Driver");
+
+    Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/homework2","dongho","1234");
+    String sql = "SELECT * FROM user WHERE id=?";
+
+    PreparedStatement query = connect.prepareStatement(sql);
+
+    query.setString(1,(String)session.getAttribute("idValue"));
+    ResultSet result = query.executeQuery();
+
+    ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(); //2차원 리스트 생성
+    while(result.next()) {
+        ArrayList<String> tmpData = new ArrayList<String>(); // 2차원 리스트에 넣어줄 1차원 리스트 생성
+        tmpData.add(result.getString(1));
+        tmpData.add(result.getString(2));
+        tmpData.add(result.getString(3));
+        tmpData.add(result.getString(4));
+        tmpData.add(result.getString(5));
+        tmpData.add(result.getString(6));
+        tmpData.add(result.getString(7));
+        tmpData.add(result.getString(8));
+        data.add(tmpData);
+    }
+    Boolean isCheck = false;
+    if(data.size() >= 1) {
+        isCheck = true;
+    }
+%>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="homework/user/user.css" type="text/css">
+    <script src="https://kit.fontawesome.com/bec76863d9.js" crossorigin="anonymous"></script>
+</head>
+<body>
+ <header>
+        <article id="logo-container">
+            <span id="logo">
+                <i class="fa-brands fa-microsoft"></i>
+            </span>
+            <p id="logo-text">MY community</p>
+        </article>
+        <nav id="right-side-nav">
+            <p class="nav-text" onclick ="goToBoard()">게시판</p>
+            <p class="nav-text" onclick ="logOutEvent()">로그아웃</p>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>내정보</h2>
+            <article id="title">
+                <h3>내정보 확인</h3>
+            </article>
+            <article id="user-container">
+                <div class="user-data">
+                    <p class="text-guide">아이디</p>
+                </div>
+                <div class="user-data">
+                    <p class="text-guide">비밀번호</p>
+                </div>
+                <div class="user-data">
+                    <p class="text-guide">이름</p>
+                </div>
+                <div class="user-data">
+                    <p class="text-guide">닉네임</p>
+                </div>
+                <div class="user-data">
+                    <p class="text-guide">이메일</p>
+                </div>
+                <div class="user-data">
+                    <p class="text-guide">전화번호</p>
+                </div>
+                <div class="user-data">
+                    <p class="text-guide">성별</p>
+                </div>
+            </article>
+            <div id="join-container">
+                <button type="button" class="join-btn" onclick="changeEvent()">수정하기</button>
+                <button type="button" class="join-btn" onclick="exitEvent()">나가기</button>
+                <button type="button" class="join-btn" onclick="exitUserEvent()">회원탈퇴</button>
+            </div>
+        </section>
+    </main>
+    <script>
+        window.onload = function() {
+            var userData = document.getElementsByClassName("user-data")
+            var pArry = []
+            if(<%=isCheck%> == true){
+                for(var i = 0; i < userData.length; i++) {
+                    var pTag = document.createElement("p")
+                    pArry.push(pTag)
+                    userData[i].appendChild(pArry[i])
+                }
+                pArry[0].innerHTML = "<%=data.get(0).get(1)%>"
+                pArry[1].innerHTML = "<%=data.get(0).get(2)%>"
+                pArry[2].innerHTML = "<%=data.get(0).get(3)%>"
+                pArry[3].innerHTML = "<%=data.get(0).get(4)%>"
+                pArry[4].innerHTML = "<%=data.get(0).get(5)%>"
+                pArry[5].innerHTML = "<%=data.get(0).get(6)%>"
+                pArry[6].innerHTML = "<%=data.get(0).get(7)%>"
+            }
+        }
+        function changeEvent() {
+            location.href = "homework_changeMyData.jsp"
+        }
+        function exitEvent() {
+            history.back()
+        }
+        function logOutEvent() {
+            location.href = "homework_logOutModule.jsp"
+        }   
+        function goToBoard() {
+            location.href = "homework_BoardPage.jsp"
+        }
+        function exitUserEvent() {
+            var result = confirm("회원탈퇴 하시겠습니까?")
+            if(result == true) {
+                var formTag = document.createElement("form")
+                var inputTag = document.createElement("input")
+                var idValue = "<%=data.get(0).get(1)%>"
+            
+                inputTag.setAttribute("type","hidden")
+                inputTag.setAttribute("value",idValue)
+                inputTag.setAttribute("name","id_value")
+                formTag.appendChild(inputTag)
+                document.body.appendChild(formTag)
+                formTag.action = "homework_exitUserModule.jsp"
+                formTag.submit()
+            }else {
+                return false;
+            }
+        }
+    </script>
+</body>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="user.css" type="text/css">
+    <script src="https://kit.fontawesome.com/bec76863d9.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <article id="logo-container">
+            <span id="logo">
+                <i class="fa-brands fa-microsoft"></i>
+            </span>
+            <p id="logo-text">MY community</p>
+        </article>
+        <nav id="right-side-nav">
+            <p class="nav-text">게시판</p>
+            <p class="nav-text">로그인</p>
+            <p class="nav-text">News</p>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>회원가입</h2>
+            <form>
+                <article class="join-path">
+                    <div id="join-path-stage1">약관동의</div>
+                    <div id="join-path-stage2">회원정보입력</div>
+                    <div id="join-path-stage3">회원가입 완료</div>
+                </article>
+                <article id="title">
+                    <h3>회원정보 입력</h3>
+                </article>
+                <article id="user-container">
+                    <div class="user-data">
+                        <p class="text-guide">아이디</p>
+                        <input class="input-data" type="text" placeholder="아이디를 입력해주세요" maxlength="13">
+                        <button class="check-btn">중복확인</button>
+                    </div>
+                    <div class="user-data">
+                        <p class="text-guide">비밀번호</p>
+                        <input class="input-data" type="password" placeholder="비밀번호를 입력해주세요">
+                    </div>
+                    <div class="user-data">
+                        <p class="text-guide">비밀번호확인</p>
+                        <input class="input-data" type="password" placeholder="비밀번호를 한번 더 입력해주세요">
+                    </div>
+                    <div class="user-data">
+                        <p class="text-guide">이름</p>
+                        <input class="input-data" type="text" placeholder="이름을 입력해 주세요">
+                    </div>
+                    <div class="user-data">
+                        <p class="text-guide">닉네임</p>
+                        <input class="input-data" type="text" placeholder=" ex:동쪽의호랑이">
+                    </div>
+                    <div class="user-data">
+                        <p class="text-guide">이메일</p>
+                        <input class="input-data" type="text" placeholder=" ex: abc123@example.com">
+                        <button class="check-btn">중복확인</button>
+                    </div>
+                    <div class="user-data">
+                        <p class="text-guide">전화번호</p>
+                        <input class="input-data" type="text" placeholder="숫자만 입력해주세요">
+                    </div>
+                    <div class="user-data">
+                        <p class="text-guide">성별</p>
+                        <input class="check-data" type="radio" name="gender">
+                        <p class="gender-guide">남</p>
+                        <input class="check-data" type="radio" name="gender">
+                        <p class="gender-guide">여</p>
+                        <input class="check-data" type="radio" name="gender">
+                        <p class="gender-guide">선택안함</p>
+                    </div>
+                    <div id="join-container">
+                        <button class="join-btn">가입하기</button>
+                    </div>
+                </article>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

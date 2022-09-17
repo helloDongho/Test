@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/bec76863d9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="boardwrite.css" type="text/css">
+</head>
+<body>
+    <header>
+        <article id="logo-container">
+            <span id="logo">
+                <i class="fa-brands fa-microsoft"></i>
+            </span>
+            <p id="logo-text">MY community</p>
+        </article>
+        <nav id="right-side-nav">
+            <p class="nav-text">내정보</p>
+            <p class="nav-text">News</p>
+        </nav>
+    </header>
+    <main>
+        <article id="main-header">
+            <p id="main-text">게시판</p>
+        </article>
+        <form name="updatewrite">
+            <section>
+                <article id="sub-header">
+                    <p id="sub-text">게시판 글쓰기 양식</p>
+                </article>
+                <article id="write-container">
+                    <button class="write-board" href="homework_write.jsp">확인</button>
+                    <button class="write-board" href="homework_write.jsp">취소</button>
+                </article>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" id="board-write-title" name="write-title" maxlength="100" placeholder="여기에는 사용자가 작성한 내용이 들어가야 할것"></td>
+                        </tr>
+                        <tr>
+                            <td><textarea id="board-write-content" placeholder="여기에도 마찬가지임" name="write-board" maxlength="60000"></textarea></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </form>
+    </main>
+</body>
+</html>

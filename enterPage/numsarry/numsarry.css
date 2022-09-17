@@ -1,0 +1,305 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* font css */
+@font-face {
+    font-family: "DancingScript-Bold";
+    src: url(font/DancingScript-Bold.ttf);
+}
+@font-face {
+    font-family: "DancingScript-Medium";
+    src: url(font/DancingScript-Medium.ttf);
+}
+@font-face {
+    font-family: "DancingScript-Regular";
+    src: url(font/DancingScript-Regular.ttf);
+}
+@font-face {
+    font-family: "DancingScript-SemiBold";
+    src: url(font/DancingScript-SemiBold.ttf);
+}
+
+#title-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    color: #f2f2f2;
+    background-color: #362222;
+    height: 100px;
+    border: 3px solid #171010;
+    position: fixed;
+}
+.title-header-Text {
+    font-family: "DancingScript-Bold";
+    max-width: 300px;
+    font-size: 30px;
+}
+#op-btn-container {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    width:30%;
+    height: 50px;
+}
+.op-button {
+    font-family: "DancingScript-Bold";
+    flex-basis: 25%;
+    height: 70px;
+    font-size: 24px;
+}
+main {
+    display:flex;
+    width: 100%;
+    padding-top: 100px;
+    height: 100vh;
+    background-color: #171010;
+}
+#pae-container{
+    margin-top: 30px;
+    height: 600px;
+    width: 90%;
+}
+#myPae {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 300px;
+}
+#yourpae {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+}
+.tmpPae{
+    margin-left: 1px;
+    margin-right: 1px;
+    flex-basis: 9%;
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    background-color: #f2f2f2;
+}
+#aside-container {
+    height: 100%;
+    background-color: green;
+    width: 17%;
+}
+#timer-container {
+    height: 20%;
+}
+#timer-header {
+    font-family: "DancingScript-SemiBold";
+    height: 30%;
+    background-color: #423F3E;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#timer-text {
+    font-family: "DancingScript-Medium";
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+    height: 70%;
+    background-color: #423F3E;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    text-align: center;
+}
+.aside-header-text {
+    font-size: 24px;
+    letter-spacing: 10px;
+}
+#rank-System {
+    background-color: #2B2B2B;
+    height: 80%;
+}
+#rank-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 15%;
+    background-color: #2B2B2B;
+    border-bottom: 3px solid black;
+}
+#rank-header-text {
+    font-family: "DancingScript-SemiBold";
+    letter-spacing: 3px;
+    font-size: 24px;
+}
+#input-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 20%;
+    flex-basis: 0 1 180px;
+    background-color: #2B2B2B;
+}
+#Name-input {
+    margin-left: 10px;
+    width: 55%;
+    height: 40%;
+}
+#Rank-button {
+    margin-left: 5px;
+    min-width: 30%;
+    height: 40%;
+}
+#ranking-user {
+    height: 65%;
+}
+.newDataClass {
+    display: flex;
+    height: 10%;
+    background-color:  #423F3E;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 18px;
+}
+ @media (max-width:1200px) {
+    #pae-container {
+        width: 83%;
+    }
+    #container {
+        width: 17%;
+    }
+    .tmpPae {
+        flex-basis: 8%;
+        height: 130px;
+    }
+    #op-btn-container {
+        width: 30%;
+    }
+} 
+@media (max-width:1000px) {
+    #pae-container {
+        width: 83%;
+    }
+    #container {
+        width: 17%;
+    }
+    .tmpPae {
+        flex-basis: 8%;
+        height: 110px;
+    }
+    #Rank-button {
+        height: 38%;
+    }
+    #op-btn-container {
+        width: 30%;
+    }
+    .op-button {
+        height: 65px;
+        flex-basis: 22%;
+    }
+}
+@media (max-width:900px) {
+    #pae-container {
+        width: 83%;
+    }
+    #container {
+        width: 17%;
+    }
+    .tmpPae {
+        flex-basis: 7.5%;
+        height: 100px;
+    }
+    #Rank-button {
+        height: 36%;
+    }
+    #op-btn-container {
+        width: 30%;
+    }
+    .op-button {
+        height: 60px;
+        flex-basis: 19%;
+    }
+}
+@media (max-width:850px) {
+    #pae-container {
+        width: 83%;
+    }
+    #container {
+        width: 17%;
+    }
+    .tmpPae {
+        flex-basis: 7%;
+        height: 90px;
+    }
+    .aside-header-text{
+        font-size: 19px;
+    }
+    .title-header-Text {
+        font-size: 25px;
+    }
+    #timer-text {
+        font-size: 25px;
+    }
+    #op-btn-container {
+        width: 30%;
+    }
+    .op-button {
+        height: 55px;
+        flex-basis: 14%;
+        font-size: 18px;
+    }
+    #Rank-button {
+        height: 36%;
+    }
+}
+@media (max-width:630px) {
+    #pae-container {
+        width: 83%;
+    }
+    #container {
+        width: 17%;
+    }
+    .tmpPae {
+        flex-basis: 7%;
+        height: 70px;
+    }
+    .op-button {
+        height: 50px;
+        flex-basis: 20%;
+    }
+    .title-header-Text {
+        font-size: 20px;
+    }
+    #timer-text {
+        font-size: 20px;
+    }
+    #rank-header-text{
+        font-size: 15px;
+    }
+    #op-btn-container {
+        width: 40%;
+    }
+    .aside-header-text {
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+}
+@media (max-width:510px) {
+    #pae-container {
+        width: 83%;
+    }
+    #container {
+        width: 17%;
+    }
+    .tmpPae {
+        flex-basis: 6.5%;
+        height: 65px;
+    }
+    .title-header-Text {
+        font-size: 18px;
+    }
+   
+} 

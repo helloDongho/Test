@@ -1,0 +1,230 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+html body {
+    height: 100%;
+}
+header {
+    position:fixed;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #212121;
+    border-bottom: 1px solid white;
+}
+#youtube-header-left{
+    display: flex;
+}
+#menu-button {
+    background-color: #212121;
+    margin-right:40px;
+    border:none;
+    cursor: pointer;
+}
+#menu-button-icon {
+    width: 60px;
+    font-size: 25px;
+    color:white;
+}
+#menu-button-icon:hover {
+    background-color:rgba(19,19,19, 0.9);
+}
+#youtube-logo {
+    width: 97px;
+    height: 30px;
+}
+#youtube-header-middle {
+    display: flex;
+    align-items: center;
+    flex: 0 1 650px;
+}
+#header-search-bar {
+    margin-left: 40px;
+    width: 100%;
+}
+#searchbar {
+    width: 100%;
+    height: 40px;
+}
+#search-button {
+    width: 70px;
+    height: 40px;
+}
+#mic-icon-box {
+    display:flex;
+}
+#mic-icon-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    margin-left: 20px;
+    background-color: #212121;
+    cursor: pointer;
+}
+#mic-icon-button:hover {
+    background-color:rgba(19,19,19, 0.9);
+}
+#mic-icon {
+    font-size: 30px;
+    color: #bbbbbb;
+}
+#youtube-header-right {
+    display: flex;
+    align-items: center;
+    min-width: 225px;
+    justify-content: flex-end;
+}
+.right-icons {
+    font-size: 25px;
+    margin-right: 30px;
+    color: white;
+}
+#menu {
+    display: flex;
+    flex-direction: column;
+    width: 60px;
+    background-color: #212121;
+    position:fixed;
+    height: 100vh;
+    top: 70px;
+    border-right: 1px solid white;
+}
+.nav-category {
+    margin-top: 15px;
+    text-align: center;
+}
+.category {
+    text-decoration: none;
+    height: 100%;
+}
+.category:hover {
+    background-color:rgba(19,19,19, 0.9);
+}
+.nav-button {
+    font-size: 15px;
+    color: white;
+}
+.category-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 10px;
+    color: white;
+}
+#main-video {
+    display: flex;
+    width:100%;
+    height: 100%;
+    padding-top: 70px;
+    background-color: #181818;
+    
+}
+#video-contents{
+    margin-left: 60px;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.video-container {
+    flex-basis: 22%;
+    height: 300px;
+}
+.video-container:hover {
+    transform: scale(1.2 ,1.2);
+    transition-delay: 1s;
+    transition-duration: 0.5s;
+}
+.video {
+    width:100%;
+    height:60%;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+}
+.channel-logo {
+    width: fit-content;
+}
+.logo {
+    width:30px;
+    border-radius: 50%;
+}
+.video-detail-container {
+    width:100%;
+    display:flex;
+    margin-top: 20px;
+}
+.video-detail {
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow-x: hidden;
+}
+h3 {
+    color:white;
+    font-weight: 100;
+    font-size: 13px;
+}
+.channel-title {
+    color:#717171;
+    font-size: 12px;
+}
+.text {
+    color:white;
+    font-weight: 100;
+    font-size: 12px;
+    color: #717171;
+}
+.meta-button {
+    width: 30px;
+    height: 30px;
+    margin-left:auto;
+}
+.meta-button {
+    background-color: #181818;
+    border: none;
+}
+.dots-menu {
+    color: white;
+    font-size: 25px;
+}
+@media (max-width:1500px) {
+    .video-container {
+      margin-left: 5px;
+    }
+  }
+  @media (max-width:1127px) {
+      .video-container {
+          flex-basis: 30%;
+      }
+  }
+  @media (max-width:710px) {
+      .video-container {
+          flex-basis: 45%;
+      }
+  }
+  @media (max-width:565px) {
+      #searchbar {
+          display: none;
+      }
+      #search-button {
+          display: none;
+      }
+      #youtube-header-right {
+        min-width: auto;
+      }
+      #mic-icon {
+          margin-left:auto;
+      }
+      }
+  @media (max-width:510px) {
+      .video-container {
+          flex-basis: 90%;
+      }
+  }

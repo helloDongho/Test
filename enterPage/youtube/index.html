@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/bec76863d9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="youtube.css">
+</head>
+<body>
+    <header>
+        <div id="youtube-header-left">
+            <button id="menu-button" onclick="menuClickEvent()">
+                <div id="menu-button-icon">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </button>
+            <img id="youtube-logo" src="left image/youtubelogo.png">
+        </div>
+        <div id="youtube-header-middle">
+            <div id="header-search-bar">
+                <input type="text" id="searchbar" placeholder="검색">
+            </div>
+            <input type="button" id="search-button">
+            <div id="mic-icon-box">
+                <button type="button" id="mic-icon-button">
+                    <span id="mic-icon">
+                        <i class="fa-solid fa-microphone"></i>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div id="youtube-header-right">
+            <span class="right-icons">
+                <i class="fa fa-th-large"></i>
+            </span>
+            <span class="right-icons">
+                <i class="fa fa-camera"></i>
+            </span>
+            <span class="right-icons">
+                <i class="fa fa-cog"></i>
+            </span>
+            <span class="right-icons">
+                <i class="fa fa-user-circle-o"></i>
+            </span> 
+        </div>
+    </header>
+    <main id ="main-video">
+        <nav id="menu">
+            <article class="nav-category">
+                <a class="category" href="#">
+                    <div class="nav-button">
+                        <i class="fa-solid fa-house"></i>
+                    </div>
+                    <p class="category-text">홈</p>
+                </a>
+            </article>
+            <article class="nav-category">
+                <a class="category" href="#">
+                    <div class="nav-button">
+                        <i class="fa-brands fa-searchengin"></i>
+                    </div>
+                    <p class="category-text">탐색</p>
+                </a>
+            </article>
+            <article class="nav-category">
+                <a class="category" href="#">
+                    <div class="nav-button">
+                        <i class="fa-solid fa-stopwatch-20"></i>
+                    </div>
+                    <p class="category-text">shorts</p>
+                </a>
+            </article>
+            <article class="nav-category">
+                <a class="category" href="#">
+                    <div class="nav-button">
+                        <i class="fa-solid fa-subscript"></i>
+                    </div>
+                    <p class="category-text">구독</p>
+                </a>
+            </article>
+            <article class="nav-category">
+                <a class="category" href="#">
+                    <div class="nav-button">
+                        <i class="fa-brands fa-square-youtube"></i>
+                    </div>
+                    <p class="category-text">Originals</p>
+                </a>
+            </article>
+            <article class="nav-category">
+                <a class="category" href="#">
+                    <div class="nav-button">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <p class="category-text">Youtubemusic</p>
+                </a>
+            </article>
+            <article class="nav-category">
+                <a class="category" href="#">
+                    <div class="nav-button">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                    </div>
+                    <p class="category-text">보관함</p>
+                </a>
+            </article>
+            <article class="nav-category">
+                <a class="category" href="#">
+                    <div class="nav-button">
+                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                    </div>
+                    <p class="category-text">오프라인저장동영상</p>
+                </a>
+            </article>
+        </nav>
+        <section id= "video-contents">
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>시작한지 1분만에 나온 기적의 상점ㅋㅋㅋㅋ</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">전쓰트의 게임채널</span>
+                            </div>
+                            <span class="text">조회수 4.5만회 •</span>
+                            <spna class="text">2시간전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3> 자동차에 빔프로젝터가!? 미니 신형 전기차들이 진짜 대박인 이유</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">남자들의 자동차-남차카페</span>
+                            </div>
+                            <span class="text">조회수 2.8만회 •</span>
+                            <spna class="text">17시간전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>미쳐버린 개발팀</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">장삐쭈</span>
+                            </div>
+                            <span class="text">조회수 82만회 •</span>
+                            <spna class="text">9일전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>무한리필 뭉터기 스테이크 직접갖다 먹는집 분당 지글.무한상무#5</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">맛상무</span>
+                            </div>
+                            <span class="text">조회수 240만회 •</span>
+                            <spna class="text">2년전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>☕️ 뭐지? 나 스타벅스 언제왔지? 🤭 l 중간 광고 없는❗️ 매장 음악, 카페 음악 l starbucks jazz piano music</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">몽키비지엠 MONKEYBGM</span>
+                            </div>
+                            <span class="text">조회수 236만회 •</span>
+                            <spna class="text">10개월 전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>레전드가 된 선생님들 part3</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">속풀이짬뽕알뜰세트</span>
+                            </div>
+                            <span class="text">조회수 2.9만회 •</span>
+                            <spna class="text">3시간전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>"아저씨~ 따블✌️" 심야 택시 전쟁</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">슈카월드</span>
+                            </div>
+                            <span class="text">조회수 57만회 •</span>
+                            <spna class="text">2주전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>중국 스미싱 사기꾼에게 직접 들은 그들의 사기수법</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">호갱구조대</span>
+                            </div>
+                            <span class="text">조회수 57만회 •</span>
+                            <spna class="text">6개월전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>고액 과외 면접</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">너덜트</span>
+                            </div>
+                            <span class="text">조회수 328만회 •</span>
+                            <spna class="text">10일전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>통신사, 은행 다 뚤리는데요...?</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">호갱구조대</span>
+                            </div>
+                            <span class="text">조회수 44만회 •</span>
+                            <spna class="text">2일전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>왜 나는 이 집을 떠나야만 하는가</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">가요이 키우기 YoiKi</span>
+                            </div>
+                            <span class="text">조회수 66만회 •</span>
+                            <spna class="text">5개월전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>직접 경험한 부모님 선물용으로 삼성 갤럭시 워치가 레전드인 이유?</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">ITSub잇섭</span>
+                            </div>
+                            <span class="text">조회수 30만회 •</span>
+                            <spna class="text">20시간전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>와..넷플릭스 역대급 몰입감 1위 고대 전쟁 드라마</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">지무비: G Movie</span>
+                            </div>
+                            <span class="text">조회수 348만회 •</span>
+                            <spna class="text">9개월전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>메뉴 어떤걸로 하시겠어요?</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">숏박스</span>
+                            </div>
+                            <span class="text">조회수 504만회 •</span>
+                            <spna class="text">2주전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>쌤아니야</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">빠더너스</span>
+                            </div>
+                            <span class="text">조회수 175만회 •</span>
+                            <spna class="text">10일전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <article class= "video-container">
+                <div class="video"></div>
+                <div class="video-detail-container">
+                    <div class="channel-logo"></div>
+                    <div class="video-detail">
+                        <h3>"범죄도시2" 지려버렸던 강해상 명장면 총정리 (손석구 찢었따..ㄷㄷ)</h3>
+                        <div class="meta-data">
+                            <div>
+                                <span class="channel-title">엔스 Ens</span>
+                            </div>
+                            <span class="text">조회수 195만회 •</span>
+                            <spna class="text">7일전</spna>
+                        </div>
+                    </div>
+                    <button type="button" class="meta-button">
+                        <span class="dots-menu">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+        </section>
+    </main>
+    <script src="youtube.js"></script>
+</body>
+</html>

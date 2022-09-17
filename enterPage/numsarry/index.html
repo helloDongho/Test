@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>numsarry</title>
+    <link rel="stylesheet" href="numsarry.css" type="text/css">
+</head>
+<body>
+    <header id="title-header">
+        <p class="title-header-Text">DRAG&DROP GAME</p>
+        <div id="op-btn-container">
+            <button class="op-button" onclick="startEvent()">START</button>
+            <button class="op-button" onclick="submitEvent()">SUBMIT</button>
+            <button class="op-button" onclick="resetEvent()">RESET</button>
+        </div>
+        <p class="title-header-Text">DongHoShin</p>
+    </header>
+    <main>
+        <section id ="pae-container">
+            <article id="myPae"></article>
+            <article id="yourpae"></article>
+        </section>
+        <aside id="aside-container">
+            <section id="timer-container">
+                <header id="timer-header">
+                    <p class="aside-header-text">TIMER</p>
+                </header>
+                    <div id="timer-text">
+                        <span id="minutes">00</span> :
+                        <span id="seconds">00</span> :
+                        <span id="tenMillis">00</span>
+                    </div>
+            </section>
+            <section id="rank-System">
+                <header id="rank-header">
+                    <p id="rank-header-text">RANK</p>
+                </header>
+                <article id="input-container">
+                    <input id="Name-input" type="text" placeholder="Name">
+                    <button id="Rank-button" type="button" onclick="RankRegister()">등록</button>
+                </article>
+                <article id="ranking-user"></article>
+            </section>
+        </aside>
+    </main>
+<script src="numsarry.js"></script>
+</body>
+</html>
