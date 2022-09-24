@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="join.css" type="text/css">
+</head>
+<body>
+    <header>
+        <p id="header-title">Daily</p>
+    </header>
+    <main>
+        <section>
+            <p id="section-title">회원정보입력</p>
+            <article id="user-data-container">
+                <div id= "user-data-id">
+                    <input type="text" placeholder="아이디 (영문 숫자 포함 20자 이내)" maxlength="20">
+                    <div id="btn-container">
+                        <button id="search-dul">중복찾기</button>
+                    </div>
+                </div>
+                <div class="user-data">
+                    <input type="password" placeholder="비밀번호 (영문 숫자 특수 문자 포함 20자 이내)"maxlength="20">
+                </div>
+                <div class="user-data">
+                    <input type="password" placeholder="비밀번호 확인" maxlength="20">
+                </div>
+                <div class="user-data">
+                    <input type="text" placeholder="이름">
+                </div>
+                <div class="user-data">
+                    <input type="text" placeholder="연락처(- 없이 숫자만 입력해 주세요)" maxlength="11">
+                    <div id="btn-container">
+                        <button id="search-dul">중복찾기</button>
+                    </div>
+                </div>
+                <div class="select-user-data">
+                    <p id="department-text">부서</p>
+                    <select id="id-department" name="department">
+                        <option value="develope">개발부</option>
+                        <option value="education">교육부</option>
+                        <option value="management">운영부</option>
+                    </select>
+                </div>
+                <div class="select-user-data">
+                    <p id="position-text">직책</p>
+                    <select id="id-position" name="department">
+                        <option value="member">팀원</option>
+                        <option value="leader">팀장</option>
+                        <option value="admin">관리자</option>
+                    </select>
+                </div>
+            <article id="option-btn-container">
+                <button class="option-btn">가입하기</button>
+                <button class="option-btn">취소</button>
+            </article>
+        </article>
+        </section>
+    </main>
+</body>
+</html>

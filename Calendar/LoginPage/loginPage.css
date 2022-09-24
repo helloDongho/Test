@@ -1,0 +1,434 @@
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+/* ---------------------font---------- */
+@font-face {
+    font-family: "Inter-SemiBold";
+    src: url(font/Inter/Inter-SemiBold.ttf);
+}
+@font-face {
+    font-family: "Montserrat-Medium";
+    src: url(font/Montserrat/static/Montserrat-Medium.ttf);
+}
+/* ----------------------- */
+body {
+    background-color: #EAE509;
+}
+main {
+    width: 100%;
+    height: fit-content;
+    background-color: #EAE509;
+}
+#title {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 120px;
+    width: 50%;
+    height: 170px;
+    font-size: 140px;
+    font-family: "Montserrat-Medium";
+}
+#user-container {
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1080px;
+    width: 50%;
+    height: 774px;
+    background-color: #EAE509;
+}
+#login-container{
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 364px;
+}
+#id-data-container {
+    width: 100%;
+    height: 100px;
+}
+#pw-data-container{
+    width: 100%;
+    height: 100px;
+    margin-top: 32px;
+}
+#id-data {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    padding-left: 35px;
+    font-size: 40px;
+    font-family: "Inter-SemiBold";
+}
+#pw-data {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    padding-left: 35px;
+    font-size: 40px;
+    font-family: "Inter-SemiBold";
+}
+input::placeholder {
+    color:#000000;
+}
+input::-webkit-input-placeholder {
+    color:#000000;
+}
+input:-ms-input-placeholder {
+    color:#000000;
+}
+#login-btn-container {
+    width: 100%;
+    height: 100px;
+    margin-top: 32px;
+}
+#login-btn {
+    width: 100%;
+    height: 100%;
+    font-size: 40px;
+    border-radius: 26px;
+    font-family: "Inter-SemiBold";
+    cursor: pointer;
+}
+#join-exit-container {
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    height: 100px;
+    margin-top: 29px;
+}
+#join-btn {
+    width: 370px;
+    height: 100%;
+    border: 1px solid #000000;
+    font-size: 40px;
+    border-radius: 26px;
+    font-family: "Inter-SemiBold";
+    cursor: pointer;
+}
+#exit-btn {
+    width: 370px;
+    height: 100%;
+    border: 1px solid #000000;
+    font-size: 40px;
+    border-radius: 26px;
+    font-family: "Inter-SemiBold";
+    cursor: pointer;
+}
+#search-id-pw-container {
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    height: 100px;
+    margin-top: 54px;
+}
+#search-id-btn {
+    width: 370px;
+    height: 100%;
+    border: 1px solid #000000;
+    font-size: 40px;
+    border-radius: 26px;
+    font-family: "Inter-SemiBold";
+    cursor: pointer;
+}
+#search-pw-btn{
+    width: 370px;
+    height: 100%;
+    border: 1px solid #000000;
+    font-size: 40px;
+    border-radius: 26px;
+    font-family: "Inter-SemiBold";
+    cursor: pointer;
+}
+@media (max-width:1920px) {
+    #title {
+        width: 50%;
+        height: 100px;
+        font-size: 70px;
+    }
+    #user-container {
+        margin-top: 40px;
+        width: 50%;
+        max-width: 900px;
+        height: 600px;
+    }
+    #login-container{
+        height: 273px;
+    }
+    #id-data-container {
+        height: 75px;
+    }
+    #pw-data-container{
+        height: 75px;
+        margin-top: 24px;
+    }
+    #id-data {
+        border-radius: 30px;
+        padding-left: 28px;
+        font-size: 30px;
+    }
+    #pw-data {
+        border-radius: 30px;
+        padding-left: 28px;
+        font-size: 30px;
+    }
+    #login-btn-container {
+        width: 100%;
+        height: 75px;
+        margin-top: 24px;
+    }
+    #login-btn {
+        font-size: 30px;
+        border-radius: 20px;
+    }
+    #join-exit-container {
+        height: 75px;
+        margin-top: 29px;
+    }
+    #join-btn {
+        width: 320px;
+        font-size: 30px;
+        border-radius: 20px;
+    }
+    #exit-btn {
+        width: 320px;
+        font-size: 30px;
+        border-radius: 20px;
+    }
+    #search-id-pw-container {
+        height: 75px;
+        margin-top: 40px;
+    }
+    #search-id-btn {
+        width: 320px;
+        font-size: 30px;
+        border-radius: 20px;
+    }
+    #search-pw-btn{
+        width: 320px;
+        font-size: 30px;
+        border-radius: 20px;
+    }
+}
+@media (max-width:1600px) {
+    #title {
+        margin-top: 100px;
+        width: 60%;
+        height: 90px;
+        font-size: 60px;
+    }
+    #user-container {
+        margin-top: 26px;
+        width: 55%;
+        max-width: 750px;
+        height: 490px;
+    }
+    #login-container{
+        height: 230px;
+    }
+    #id-data-container {
+        height: 60px;
+    }
+    #pw-data-container{
+        height: 60px;
+        margin-top: 20px;
+    }
+    #id-data {
+        border-radius: 18px;
+        padding-left: 23px;
+        font-size: 20px;
+    }
+    #pw-data {
+        border-radius: 18px;
+        padding-left: 23px;
+        font-size: 20px;
+    }
+    #login-btn-container {
+        height: 60px;
+        margin-top: 20px;
+    }
+    #login-btn {
+        font-size: 20px;
+        border-radius: 18px;
+    }
+    #join-exit-container {
+        height: 60px;
+        margin-top: 25px;
+    }
+    #join-btn {
+        width: 260px;
+        font-size: 20px;
+        border-radius: 18px;
+    }
+    #exit-btn {
+        width: 260px;
+        font-size: 20px;
+        border-radius: 18px;
+    }
+    #search-id-pw-container {
+        height: 60px;
+        margin-top: 30px;
+    }
+    #search-id-btn {
+        width: 260px;
+        font-size: 20px;
+        border-radius: 18px;
+    }
+    #search-pw-btn{
+        width: 260px;
+        font-size: 20px;
+        border-radius: 18px;
+    }
+}
+@media (max-width:1280px) {
+    #title {
+        margin-top: 60px;
+        width: 50%;
+        height: 70px;
+        font-size: 50px;
+    }
+    #user-container {
+        margin-top: 13px;
+        width: 70%;
+        max-width: 600px;
+        height: 480px;
+    }
+    #login-container{
+        height: 190px;
+    }
+    #id-data-container {
+        height: 50px;
+    }
+    #pw-data-container{
+        height: 50px;
+        margin-top: 16px;
+    }
+    #id-data {
+        border-radius: 16px;
+        padding-left: 20px;
+        font-size: 16px;
+    }
+    #pw-data {
+        border-radius: 16px;
+        padding-left: 20px;
+        font-size: 16px;
+    }
+    #login-btn-container {
+        height: 50px;
+        margin-top: 16px;
+    }
+    #login-btn {
+        font-size: 16px;
+        border-radius: 16px;
+    }
+    #join-exit-container {
+        height: 50px;
+        margin-top: 20px;
+    }
+    #join-btn {
+        width: 200px;
+        font-size: 16px;
+        border-radius: 16px;
+    }
+    #exit-btn {
+        width: 200px;
+        font-size: 16px;
+        border-radius: 16px;
+    }
+    #search-id-pw-container {
+        height: 50px;
+        margin-top: 16px;
+    }
+    #search-id-btn {
+        width: 200px;
+        font-size: 16px;
+        border-radius: 16px;
+    }
+    #search-pw-btn{
+        width: 200px;
+        font-size: 16px;
+        border-radius: 16px;
+    }
+}
+@media (max-width:360px){
+    #title {
+        margin-top: calc(225px - 189px);
+        width: 80%;
+        max-width: 800px;
+        height: calc(170px - 25%);
+        font-size: calc(115px - 96.6px);
+    }
+    #user-container {
+        margin-top: 10px;
+        width: 60%;
+        height: 160px;
+    }
+    #login-container{
+        height: 90px;
+        margin-top: 10px;
+    }
+    #id-data-container {
+        height: 25px;
+    }
+    #pw-data-container{
+        height: 25px;
+        margin-top: 8px;
+    }
+    #id-data {
+        border-radius: 5px;
+        padding-left: 4px;
+        font-size: 4px;
+        border: none;
+    }
+    #pw-data {
+        border-radius: 5px;
+        padding-left: 4px;
+        font-size: 4px;
+        border: none;
+    }
+    #login-btn-container {
+        height: 25px;
+        margin-top: 8px;
+        border-radius: 5px;
+    }
+    #login-btn {
+        font-size: 4px;
+        border-radius: 5px;
+        border: none;
+    }
+    #join-exit-container {
+        height: 20px;
+        margin-top: 14px;
+    }
+    #join-btn {
+        width: 75px;
+        font-size: 4px;
+        border-radius: 5px;
+    }
+    #exit-btn {
+        width: 75px;
+        font-size: 4px;
+        border-radius: 5px;
+    }
+    #search-id-pw-container {
+        height: 20px;
+        margin-top: 14px;
+    }
+    #search-id-btn {
+        width: 75px;
+        font-size: 4px;
+        border-radius: 5px;
+    }
+    #search-pw-btn{
+        width: 75px;
+        font-size: 4px;
+        border-radius: 5px;
+    }
+}
