@@ -44,7 +44,7 @@
                 alert("아이디 혹은 비밀번호를 입력해 주세요")
             }
             else {
-                userForm.action = "userPostionCheckModule.jsp"
+                userForm.action = "CalendarPage.jsp"
                 userForm.submit()
             }
         }

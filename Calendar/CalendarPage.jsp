@@ -5,22 +5,34 @@
 <%@ page import="java.sql.ResultSet" %> 
 <%@ page import="java.util.ArrayList" %>
 
+<%-- // 자바스크립트에서 문자열로 만들어주려면 쌍따옴표 혹은 곁따옴표를 붙여줘야 한다
+// 그래야만 문자열로 인식하고 숫자도 양옆에 쌍따옴표 혹은 곁따옴표를 붙여주면 문자로 만들수 있다
+// 근데 자바(서버에서) 자바스크립트로 보내주면
+// getString으로 데이터를 불러와서 정제 해주는데 그때는 문자로만 값을 데이터베이스에서 받아온다
+// 이게 무슨말이냐면 "김팀원" 이런식으로 불러오는게 아닌 김팀원 << 이렇게 불러온다.
+// 그렇기 때문에 이 그대로 자바스크립트에 <%=data%> 이런식으로 넣으면 자바스크립트에서는 인식할수가 없는것
+// getString으로 데이터를 받아올때에 애초에 받아올때 "김팀원" 이런식으로 받아와서 저장해줘야 한다
+// " < 이 쌍따옴표를 붙이는 방법은 escape chracter 문자를 사용해줘야한다. 
+// 그 방법은 \" 이런식으로 써줘야 하는데 이것도 escape chracter 형이므로 \ < 이 역슬래시를 문자로 인식해줘야함
+// 그렇기에 문자열 형식이 아닌이상 "\"" 이런식으로 역슬래시를 먼저 문자열로 만들어준뒤에 그 뒤에 쌍따옴표를 붙여줘야함--%>
+
+
+
 <%
     request.setCharacterEncoding("utf-8");
 
     String idValue = request.getParameter("id_value"); // loginPage에서 받아옴
     String pwValue = request.getParameter("pw_value"); // loginPage에서 받아옴 
-    String userNumValue = request.getParameter("user_num"); // CalendarModule Page에서 보내준 usernum 받아옴 
     
-
     Class.forName("com.mysql.jdbc.Driver");
     Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/daily","dongho","1234");
 
 
-    String sql = "SELECT username FROM user WHERE userid=? AND userpw=?";
+    String sql = "SELECT usernum,username,userposition,userdepartment FROM user WHERE userid=? AND userpw=?";
     PreparedStatement query = connect.prepareStatement(sql);
     query.setString(1, idValue);
     query.setString(2, pwValue);
+
 
 
     ResultSet result = query.executeQuery();
@@ -28,27 +40,38 @@
     while(result.next()) {
         ArrayList<String> tmpData = new ArrayList<String>(); 
         tmpData.add(result.getString(1));
+        tmpData.add("\"" + result.getString(2) + "\"");
+        tmpData.add("\"" + result.getString(3) + "\"");
+        tmpData.add("\"" + result.getString(4) + "\"");
         data.add(tmpData);
     }
+    
+    // SELECT 한 데이터 문자형 변수에 저장(usernum)
+
+    String userNum = data.get(0).get(0); 
+    String userName = data.get(0).get(1);
+    String userPosition = data.get(0).get(2);
+    String userDepart = data.get(0).get(3);
 
     Boolean isLogin = false;
     if (data.size() > 0) {
         isLogin = true;
-        session.setAttribute("idValue",idValue);
+        session.setAttribute("userNumValue",userNum);
+        session.setAttribute("userPositionValue",userPosition);
     }
 
     String calendarSql = "SELECT calendardate,claendarcomment,calendartime,calendarnum FROM calendar WHERE usernum=? ORDER BY calendardate";
     PreparedStatement calendarQuery = connect.prepareStatement(calendarSql);
-    calendarQuery.setString(1, userNumValue);
+    calendarQuery.setString(1, userNum);
 
     ResultSet calendarResult = calendarQuery.executeQuery();
     ArrayList<ArrayList<String>> calendarData = new ArrayList<ArrayList<String>>(); 
     while(calendarResult.next()) {
         ArrayList<String> calendarTmpData = new ArrayList<String>(); 
-        calendarTmpData.add(calendarResult.getString(1));
-        calendarTmpData.add(calendarResult.getString(2));
-        calendarTmpData.add(calendarResult.getString(3));
-        calendarTmpData.add(calendarResult.getString(4));
+        calendarTmpData.add("\"" + calendarResult.getString(1) + "\"");
+        calendarTmpData.add("\"" + calendarResult.getString(2) + "\"");
+        calendarTmpData.add("\"" + calendarResult.getString(3) + "\"");
+        calendarTmpData.add("\"" + calendarResult.getString(4) + "\"");
         calendarData.add(calendarTmpData);
     }
 
@@ -56,6 +79,28 @@
     if(calendarData.size() > 0){
         isLoad = true;
     }
+
+    // seesion 에 저장한 userPositionValue 값 문자형 변수에 저장 하고 저장한것을 통하여 username 불러오기 < 팀장이, 자기팀 팀원 조회할수 있게
+    String userPositionValue = (String)session.getAttribute("userPositionValue");
+
+    String userDataSql = "SELECT username,usernum FROM user WHERE userposition=?";
+    PreparedStatement userDataQuery = connect.prepareStatement(userDataSql);
+    userDataQuery.setString(1, userPositionValue);
+
+    ResultSet userDataResult = userDataQuery.executeQuery();
+    ArrayList<ArrayList<String>> userData = new ArrayList<ArrayList<String>>(); 
+    while(userDataResult.next()) {
+        ArrayList<String> userTmpData = new ArrayList<String>(); 
+        userTmpData.add(userDataResult.getString(1));
+        userTmpData.add(userDataResult.getString(2));
+        userData.add(userTmpData);
+    }
+
+    Boolean loadData = false;
+    if(userData.size() > 0) {
+        loadData = true;
+    }
+
 
 %>
 <head>
@@ -81,8 +126,16 @@
         <article id="user-container">
             <p id="user-name"></p>
             <button id="user-logout" onclick="logout()">로그아웃</button>
+            <button id="nav-button" onclick="showUserListEvent()">
+                <span>
+                    <i class="fa-solid fa-bars"></i>
+                <span>
+            </button>
         </article>
     </header>
+    <nav class="right-side-nav">
+        <p id="nav-header"></p>
+    </nav>
     <main>
         <section id="calendar-container">
             <form name="addform">
@@ -103,15 +156,12 @@
         </section>
     </main>
     <script>
-        var today = new Date()
-        
         function login() {
             if(<%=isLogin%> == true){
             alert("로그인 성공")
-            var jspUserName = "<%=data%>"
-            var userName = jspUserName.replace(/[\[\]']+/g,'')
+            var jspUserName = <%=userName%>
             var userNameTag = document.getElementById("user-name")
-            userNameTag.innerHTML = userName
+            userNameTag.innerHTML = jspUserName
         }
             else{
                 alert("로그인 실패하였습니다.")
@@ -142,41 +192,12 @@
             }
         }
 
-        function makeDate() {
-            var todayY = today.getFullYear()
-            var todayM = today.getMonth() + 1
-            var headerDateTag = document.getElementById("header-date")
-            headerDateTag.innerHTML = todayY + "/" + todayM
-        }
-        makeDate()
-
-            function minusMonth(){
-                today.setMonth(today.getMonth() - 1)
-                makeDate() 
-            }
-
-            function plusMonth() {
-                today.setMonth(today.getMonth() + 1)
-                makeDate()
-            }
-
         window.onload = function(){
             if(<%=isLoad%> == true){
-                var jspList = "<%=calendarData%>"
-                var String = jspList.replace(/[\[\]']+/g,'')
-                var array = String.split(',')
-                var twoArray = [];
+                var jspList = <%=calendarData%>
                 var calendarListTag = document.getElementById("calendar-list")
-                
-                for(var i = 0; i < array.length; i++) {
-                array[i] = array[i].trim();
-                
-                }
-                while (array.length > 0) {
-                    twoArray.push(array.splice(0,4))
-                }
 
-                for(var j =0; j < twoArray.length; j++) {
+                for(var j =0; j < jspList.length; j++) {
                     var tmpPtagArry = []
                     var btnArray = []
                     var tmpCalendar = document.createElement("div") 
@@ -186,10 +207,10 @@
                     optionBtnTag.classList.add("option-btn-container")
                     calendarListTag.append(tmpCalendar)  
                     
-                    for(var k = 0; k < twoArray[0].length; k++) {
+                    for(var k = 0; k < jspList[0].length; k++) {
                         var tmpPTag = document.createElement("p")
                         tmpPtagArry.push(tmpPTag)
-                        tmpPTag.innerHTML = twoArray[j][k]
+                        tmpPTag.innerHTML = jspList[j][k]
                         tmpCalendar.append(tmpPTag)
                     }
 
@@ -340,5 +361,64 @@
                 }
             }
         }
+
+        // 직책이 leader 이거나 admin 일 경우에만 nav 버튼 보이게 
+        function showNavButton() {
+            var navButtonTag = document.getElementById("nav-button")
+            if(<%=userPosition%> == "leader" || <%=userPosition%> == "admin") {
+                navButtonTag.style.display = "inline-block"
+                
+            }
+            else{
+                return
+            }
+        }
+        showNavButton()
+        // nav버튼 을 클릭했을때 side 버튼 display 보였다 안보였다 변하게 
+
+        function showUserListEvent() {
+            var sideNavTag = document.getElementsByClassName("right-side-nav")
+            sideNavTag[0].classList.toggle("nav-display")
+        }
+        function userDataLoad() {
+            if(<%=userPosition%> == "leader") {
+                var userDepart = <%=userDepart%>
+                var navHeaderTag = document.getElementById("nav-header")
+                var rightNavTag = document.getElementsByClassName("right-side-nav")
+
+                if(userDepart == "develope") {
+                    navHeaderTag.innerHTML = "개발부"
+                }
+                else if(userDepart == "education") {
+                    navHeaderTag.innerHTML = "교육부"
+                }
+                else if(userDepart == "management") {
+                    navHeaderTag.innerHTML = "운영부"
+                }
+            }
+            if(<%=loadData%> == true){
+                var userData = <%=userData%>
+                for(var j = 0; j < userData.length; j++){
+                    var tmpdivTag = document.createElement("div")
+                    var tmpPtagArrayArray = []
+                    tmpdivTag.classList.add("user-name-data-container")
+                    rightNavTag[0].appendChild(tmpdivTag)
+                    
+                    for(var k = 0; k < userData[0].length; k++){ 
+                        var tmpPTag = document.createElement("p")
+                        var tmpPtagArray = []
+                        tmpPtagArray.push(tmpPTag)
+                        tmpPtagArrayArray.push(tmpPtagArray)
+                        tmpPTag.innerHTML = userData[j][k]
+                        tmpPTag.classList.add("user-name-data")
+                        tmpdivTag.appendChild(tmpPTag)
+                    }
+                    tmpPtagArrayArray[1][0].style.display = "none" // usernum 안보이게 이름만 표시 되게 할거임 
+                }
+            
+            }
+           
+        }
+        userDataLoad()
     </script>
 </body>
