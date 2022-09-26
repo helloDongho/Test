@@ -82,7 +82,7 @@ header {
     height: 100vh;
     background-color: #FBB454;
 }
-#nav-header {
+.nav-header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -261,7 +261,7 @@ main {
         top: 120px;
         width: 23%;
     }
-    #nav-header {
+    .nav-header {
         height: 70px;
         font-size: 40px;
     }
@@ -349,7 +349,7 @@ main {
         top: 50px;
         width: 30%;
     }
-    #nav-header {
+    .nav-header {
         height: 30px;
         font-size: 10px;
     }
