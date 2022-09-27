@@ -101,73 +101,67 @@
 
     // ---------------------------------------------------관리자로 로그인 했을경우에 데이터 정제 
 
-    if(userPosition == "admin"){
-        
-        String developeValue = "develope";
-        String educationValue = "education";
-        String managementValue = "management";
+    String develope = "develope";
+    String education = "education";
+    String management = "management";
 
     //--------------------------------------------------- 1. 개발부 팀원 이름 불러오기 
 
-        String devUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
-        PreparedStatement devUserQuery = connect.prepareStatement(devUserSql);
-        devUserQuery.setString(1, developeValue);
+    String devUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
+    PreparedStatement devUserQuery = connect.prepareStatement(devUserSql);
+    devUserQuery.setString(1, develope);
 
-        ResultSet devUserResult = devUserQuery.executeQuery();
-        ArrayList<ArrayList<String>> devUserNameData = new ArrayList<ArrayList<String>>(); 
-        while(devUserResult.next()) {
-            ArrayList<String> devUserNametmpData = new ArrayList<String>(); 
-            devUserNametmpData.add("\"" + devUserResult.getString(1) + "\"");
-            devUserNametmpData.add("\"" + devUserResult.getString(2) + "\"");
-            devUserNameData.add(devUserNametmpData);
-        }
-
-        Boolean devUserLoad = false;
-        if(devUserNameData.size() > 0) {
-            devUserLoad = true;
-        }
-
-        //--------------------------------------------------- 2. 교육부 팀원 이름 불러오기 
-        String eduUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
-        PreparedStatement eduUserQuery = connect.prepareStatement(eduUserSql);
-        eduUserQuery.setString(1, educationValue);
-
-        ResultSet eduUserResult = eduUserQuery.executeQuery();
-        ArrayList<ArrayList<String>> eduUserNameData = new ArrayList<ArrayList<String>>(); 
-        while(eduUserResult.next()) {
-            ArrayList<String> eduUserNametmpData = new ArrayList<String>(); 
-            eduUserNametmpData.add("\"" + eduUserResult.getString(1) + "\"");
-            eduUserNametmpData.add("\"" + eduUserResult.getString(2) + "\"");
-            eduUserNameData.add(eduUserNametmpData);
-        }
-
-        Boolean eduUserLoad = false;
-        if(eduUserNameData.size() > 0) {
-            eduUserLoad = true;
-        }
-
-        //--------------------------------------------------- 3. 운영부 팀원 이름 불러오기 
-        String manageUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
-        PreparedStatement manageUserSqlUserQuery = connect.prepareStatement(manageUserSql);
-        manageUserSqlUserQuery.setString(1, managementValue);
-
-        ResultSet manageUserResult = manageUserSqlUserQuery.executeQuery();
-        ArrayList<ArrayList<String>> manageUserNameData = new ArrayList<ArrayList<String>>(); 
-        while(manageUserResult.next()) {
-            ArrayList<String> manageUserNametmpData = new ArrayList<String>(); 
-            manageUserNametmpData.add("\"" + manageUserResult.getString(1) + "\"");
-            manageUserNametmpData.add("\"" + manageUserResult.getString(2) + "\"");
-            manageUserNameData.add(manageUserNametmpData);
-        }
-
-        Boolean manageUserLoad = false;
-        if(manageUserNameData.size() > 0) {
-            manageUserLoad = true;
-        }
+    ResultSet devUserResult = devUserQuery.executeQuery();
+    ArrayList<ArrayList<String>> devUserData = new ArrayList<ArrayList<String>>(); 
+    while(devUserResult.next()) {
+        ArrayList<String> devUsertmpData = new ArrayList<String>(); 
+        devUsertmpData.add("\"" + devUserResult.getString(1) + "\"");
+        devUsertmpData.add("\"" + devUserResult.getString(2) + "\"");
+        devUserData.add(devUsertmpData);
     }
 
-  
+    Boolean devDataLoad = false;
+    if(devUserData.size() > 0) {
+        devDataLoad = true;
+    }
 
+    //--------------------------------------------------- 2. 교육부 팀원 이름 불러오기 
+    String eduUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
+    PreparedStatement eduUserQuery = connect.prepareStatement(eduUserSql);
+    eduUserQuery.setString(1, education);
+
+    ResultSet eduUserResult = eduUserQuery.executeQuery();
+    ArrayList<ArrayList<String>> eduUserData = new ArrayList<ArrayList<String>>(); 
+    while(eduUserResult.next()) {
+        ArrayList<String> eduUsertmpData = new ArrayList<String>(); 
+        eduUsertmpData.add("\"" + eduUserResult.getString(1) + "\"");
+        eduUsertmpData.add("\"" + eduUserResult.getString(2) + "\"");
+        eduUserData.add(eduUsertmpData);
+    }
+
+    Boolean eduDataLoad = false;
+    if(eduUserData.size() > 0) {
+        eduDataLoad = true;
+    }
+
+    //--------------------------------------------------- 3. 운영부 팀원 이름 불러오기 
+    String manageUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
+    PreparedStatement manageUserSqlUserQuery = connect.prepareStatement(manageUserSql);
+    manageUserSqlUserQuery.setString(1, management);
+
+    ResultSet manageUserResult = manageUserSqlUserQuery.executeQuery();
+    ArrayList<ArrayList<String>> manageUserData = new ArrayList<ArrayList<String>>(); 
+    while(manageUserResult.next()) {
+        ArrayList<String> manageUsertmpData = new ArrayList<String>(); 
+        manageUsertmpData.add("\"" + manageUserResult.getString(1) + "\"");
+        manageUsertmpData.add("\"" + manageUserResult.getString(2) + "\"");
+        manageUserData.add(manageUsertmpData);
+    }
+
+    Boolean manageDataLoad = false;
+    if(manageUserData.size() > 0) {
+        manageDataLoad = true;
+    }
 %>
 <head>
     <meta charset="UTF-8">
@@ -220,7 +214,7 @@
         </section>
     </main>
     <script>
-    console.log(<%=userData%>)
+
         function login() {
             if(<%=isLogin%> == true){
             alert("로그인 성공")
@@ -439,13 +433,15 @@
             }
         }
         showNavButton()
+
         // nav버튼 을 클릭했을때 side 버튼 display 보였다 안보였다 변하게 
 
         function showUserListEvent() {
             var rightNavTag = document.getElementsByClassName("right-side-nav")
             rightNavTag[0].classList.toggle("nav-display")
         }
-        function userDataLoad() {
+
+        function LeaderUserDataLoad() {
             var rightNavTag = document.getElementsByClassName("right-side-nav") // nav 펼첬을때 공간 불러오기 
             if(<%=userPosition%> == "leader") {
                 var userDepart = "<%=userDepart%>"
@@ -484,26 +480,93 @@
                     }
                 }
             }
-            else if(<%=userPosition%> == "admin"){
+        }
+        LeaderUserDataLoad()
+
+        function adminUserDataLoad() {
+            var rightNavTag = document.getElementsByClassName("right-side-nav")
+            //---------------------- admin 일때 Nav Container 구성 만들기 // ex 각 부서 제목칸이나 사원 들어갈 공간 ------------------------------------------
+            if(<%=userPosition%> == "admin"){
                 var departContainerArray = [] // 3개의 부서공간에 각각에 접근할수 있도록 배열로 만듬
                 var navHeaderArray = []
-                for(var l = 0; l < 3; l++){
+                for(var i = 0; i < 3; i++){
                     var departContainer = document.createElement("article") //부서공간 3개 생성
                     departContainer.classList.add("depart-Container")
                     departContainerArray.push(departContainer) // 배열에 집어넣고
                     rightNavTag[0].appendChild(departContainer) // nav공간에 3개 부서 공간 집어넣기 
                 }
-                for(var m = 0; m < departContainerArray.length; m++) {
+                for(var j = 0; j < departContainerArray.length; j++) {
                     var navHeader = document.createElement("p")
                     navHeader.classList.add("nav-header")
                     navHeaderArray.push(navHeader)
-                    departContainerArray[m].appendChild(navHeader)
+                    departContainerArray[j].appendChild(navHeader)
                 }
                 navHeaderArray[0].innerHTML = "개발부"
                 navHeaderArray[1].innerHTML = "교육부"
                 navHeaderArray[2].innerHTML = "운영부"
-            }           
+            }  
+            //------------------------------------------------------------------개발부 사원 불러오기 -------------------------------------------------------
+            if(<%=devDataLoad%> == true) {
+                var devUserData = <%=devUserData%>
+                for(var k = 0; k < devUserData.length; k++){
+                    var tmpdivTag = document.createElement("div")
+                    var tmpPtagArrayArray = []
+                    tmpdivTag.classList.add("user-name-data-container")
+                    departContainerArray[0].appendChild(tmpdivTag)
+
+                    for(var l = 0; l < devUserData[0].length; l++){
+                        var tmpPtag = document.createElement("p")
+                        var tmpPtagArray = []
+                        tmpPtag.innerHTML = devUserData[k][l]
+                        tmpPtag.classList.add("user-name-data")
+                        tmpPtagArray.push(tmpPtag)
+                        tmpPtagArrayArray.push(tmpPtagArray)    
+                        tmpdivTag.appendChild(tmpPtag)
+                    }
+                }
+            }
+            // ------------------------------------------------------------------교육부 사원 불러오기-----------------------------------------------------------
+            if(<%=eduDataLoad%> == true) {
+                var eduUserData = <%=eduUserData%>
+                for(var m = 0; m < eduUserData.length; m++){
+                    var eduTmpdivTag = document.createElement("div")
+                    var eduTmpPtagArrayArray = []
+                    eduTmpdivTag.classList.add("user-name-data-container")
+                    departContainerArray[1].appendChild(eduTmpdivTag)
+
+                    for(var n = 0; n < eduUserData[0].length; n++){
+                        var edutmpPtag = document.createElement("p")
+                        var edutmpPtagArray = []
+                        edutmpPtag.innerHTML = eduUserData[m][n]
+                        edutmpPtag.classList.add("user-name-data")
+                        edutmpPtagArray.push(edutmpPtag)
+                        eduTmpPtagArrayArray.push(edutmpPtagArray)    
+                        eduTmpdivTag.appendChild(edutmpPtag)
+                    }
+                }
+            }
+            //------------------------------------------------------------------운영부 사원 불러오기--------------------------------------------------------
+            if(<%=manageDataLoad%> == true) {
+                var manageUserData = <%=manageUserData%>
+                for(var o = 0; o < manageUserData.length; o++){
+                    var manTmpdivTag = document.createElement("div")
+                    var manTmpPtagArrayArray = []
+                    manTmpdivTag.classList.add("user-name-data-container")
+                    departContainerArray[2].appendChild(manTmpdivTag)
+
+                    for(var p = 0; p < manageUserData[0].length; p++){
+                        var mantmpPtag = document.createElement("p")
+                        var mantmpPtagArray = []
+                        mantmpPtag.innerHTML = manageUserData[o][p]
+                        mantmpPtag.classList.add("user-name-data")
+                        mantmpPtagArray.push(mantmpPtag)
+                        manTmpPtagArrayArray.push(mantmpPtagArray)    
+                        manTmpdivTag.appendChild(mantmpPtag)
+                    }
+                }
+            }
         }
-        userDataLoad()
+        adminUserDataLoad()
     </script>
 </body>
+

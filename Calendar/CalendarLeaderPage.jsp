@@ -389,8 +389,8 @@
                 var twoArray = []
                 var rightNavTag = document.getElementsByClassName("right-side-nav")
                 var depart = "<%=data.get(0).get(1)%>" // 부서별 로그인한 팀장이 다르니 Nav header 부분에 각각 팀 제목 나오게 로그인한 팀장의 부서value 값 받아오기
-                var navHeaderTag = document.getElementById("nav-header")
                 
+                var navHeaderTag = document.getElementById("nav-header")
                 for(var i = 0; i < array.length; i++) {
                 array[i] = array[i].trim();
                 }
