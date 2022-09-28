@@ -102,6 +102,9 @@
             else if(idValue.value == "false" || phoneValue.value == "false") {
                 alert("중복체크 해주세요.")
             }
+            else if(pwTag[0].value != pwTag[1].value) {
+                alert("비밀번호 확인 부탁드립니다.")
+            }
             else {
                 alert("회원가입 성공하였습니다.")
                 formTag.action = "joinModulePage.jsp"

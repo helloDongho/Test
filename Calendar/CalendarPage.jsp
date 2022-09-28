@@ -16,152 +16,181 @@
 // 그 방법은 \" 이런식으로 써줘야 하는데 이것도 escape chracter 형이므로 \ < 이 역슬래시를 문자로 인식해줘야함
 // 그렇기에 문자열 형식이 아닌이상 "\"" 이런식으로 역슬래시를 먼저 문자열로 만들어준뒤에 그 뒤에 쌍따옴표를 붙여줘야함--%>
 
-
-
 <%
     request.setCharacterEncoding("utf-8");
 
-    String idValue = request.getParameter("id_value"); // loginPage에서 받아옴
-    String pwValue = request.getParameter("pw_value"); // loginPage에서 받아옴 
-    
-    Class.forName("com.mysql.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/daily","dongho","1234");
+        String idValue = request.getParameter("id_value"); // loginPage에서 받아옴
+        String pwValue = request.getParameter("pw_value"); // loginPage에서 받아옴 
+        
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/daily","dongho","1234");
 
 
-    String sql = "SELECT usernum,username,userposition,userdepartment FROM user WHERE userid=? AND userpw=?";
-    PreparedStatement query = connect.prepareStatement(sql);
-    query.setString(1, idValue);
-    query.setString(2, pwValue);
+        String sql = "SELECT usernum,username,userposition,userdepartment FROM user WHERE userid=? AND userpw=?";
+        PreparedStatement query = connect.prepareStatement(sql);
+        query.setString(1, idValue);
+        query.setString(2, pwValue);
 
+        ResultSet result = query.executeQuery();
+        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(); 
+        while(result.next()) {
+            ArrayList<String> tmpData = new ArrayList<String>(); 
+            tmpData.add(result.getString(1));
+            tmpData.add("\"" + result.getString(2) + "\"");
+            tmpData.add("\"" + result.getString(3) + "\"");
+            tmpData.add(result.getString(4));
+            data.add(tmpData);
+        }
+        
+        Boolean isLogin = false;
+        if (data.size() > 0) {
+            isLogin = true;
+            session.setAttribute("userNumValue",data.get(0).get(0));
+            session.setAttribute("userNameValue",data.get(0).get(1));
+            session.setAttribute("userPositionValue",data.get(0).get(2));
+            session.setAttribute("userDepartValue",data.get(0).get(3));
+        }
 
+        String userNumSession = (String)session.getAttribute("userNumValue");
+        String userName = (String)session.getAttribute("userNameValue");
+        String UserDepart = (String)session.getAttribute("userDepartValue");
+        String userPosition = (String)session.getAttribute("userPositionValue");
 
-    ResultSet result = query.executeQuery();
-    ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(); 
-    while(result.next()) {
-        ArrayList<String> tmpData = new ArrayList<String>(); 
-        tmpData.add(result.getString(1));
-        tmpData.add("\"" + result.getString(2) + "\"");
-        tmpData.add("\"" + result.getString(3) + "\"");
-        tmpData.add(result.getString(4));
-        data.add(tmpData);
-    }
-    
-    // SELECT 한 데이터 문자형 변수에 저장(usernum)
+        Boolean isSession = false;
+        if(userNumSession != null) {
+            isSession = true;
+        }
 
-    String userNum = data.get(0).get(0); 
-    String userName = data.get(0).get(1);
-    String userPosition = data.get(0).get(2);
-    String userDepart = data.get(0).get(3);
+        String calendarSql = "SELECT calendardate,claendarcomment,calendartime,calendarnum FROM calendar WHERE usernum=? ORDER BY calendardate";
+        PreparedStatement calendarQuery = connect.prepareStatement(calendarSql);
+        calendarQuery.setString(1, userNumSession);
 
-    Boolean isLogin = false;
-    if (data.size() > 0) {
-        isLogin = true;
-        session.setAttribute("userNumValue",userNum);
-        session.setAttribute("userPositionValue",userPosition);
-    }
+        ResultSet calendarResult = calendarQuery.executeQuery();
+        ArrayList<ArrayList<String>> calendarData = new ArrayList<ArrayList<String>>(); 
+        while(calendarResult.next()) {
+            ArrayList<String> calendarTmpData = new ArrayList<String>(); 
+            calendarTmpData.add("\"" + calendarResult.getString(1) + "\"");
+            calendarTmpData.add("\"" + calendarResult.getString(2) + "\"");
+            calendarTmpData.add("\"" + calendarResult.getString(3) + "\"");
+            calendarTmpData.add("\"" + calendarResult.getString(4) + "\"");
+            calendarData.add(calendarTmpData);
+        }
 
-    String calendarSql = "SELECT calendardate,claendarcomment,calendartime,calendarnum FROM calendar WHERE usernum=? ORDER BY calendardate";
-    PreparedStatement calendarQuery = connect.prepareStatement(calendarSql);
-    calendarQuery.setString(1, userNum);
+        Boolean isLoad = false;
+        if(calendarData.size() > 0){
+            isLoad = true;
+        }
+        if(userPosition == "leader"){
+            
+            // 팀장으로 로그인 했을경우에 데이터 정제 
+            String userDataSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
+            PreparedStatement userDataQuery = connect.prepareStatement(userDataSql);
+            userDataQuery.setString(1, UserDepart);
 
-    ResultSet calendarResult = calendarQuery.executeQuery();
-    ArrayList<ArrayList<String>> calendarData = new ArrayList<ArrayList<String>>(); 
-    while(calendarResult.next()) {
-        ArrayList<String> calendarTmpData = new ArrayList<String>(); 
-        calendarTmpData.add("\"" + calendarResult.getString(1) + "\"");
-        calendarTmpData.add("\"" + calendarResult.getString(2) + "\"");
-        calendarTmpData.add("\"" + calendarResult.getString(3) + "\"");
-        calendarTmpData.add("\"" + calendarResult.getString(4) + "\"");
-        calendarData.add(calendarTmpData);
-    }
+            ResultSet userDataResult = userDataQuery.executeQuery();
+            ArrayList<ArrayList<String>> userData = new ArrayList<ArrayList<String>>(); 
+            while(userDataResult.next()) {
+                ArrayList<String> userTmpData = new ArrayList<String>(); 
+                userTmpData.add("\"" + userDataResult.getString(1) + "\"");
+                userTmpData.add("\"" + userDataResult.getString(2) + "\"");
+                userData.add(userTmpData);
+            }
 
-    Boolean isLoad = false;
-    if(calendarData.size() > 0){
-        isLoad = true;
-    }
+            Boolean loadData = false;
+            if(userData.size() > 0) {
+                loadData = true;
+            }
+        }
 
-    // 팀장으로 로그인 했을경우에 데이터 정제 
-    String userDataSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
-    PreparedStatement userDataQuery = connect.prepareStatement(userDataSql);
-    userDataQuery.setString(1, userDepart);
+  
+        // ---------------------------------------------------관리자로 로그인 했을경우에 데이터 정제 ------------------------------------------
 
-    ResultSet userDataResult = userDataQuery.executeQuery();
-    ArrayList<ArrayList<String>> userData = new ArrayList<ArrayList<String>>(); 
-    while(userDataResult.next()) {
-        ArrayList<String> userTmpData = new ArrayList<String>(); 
-        userTmpData.add("\"" + userDataResult.getString(1) + "\"");
-        userTmpData.add("\"" + userDataResult.getString(2) + "\"");
-        userData.add(userTmpData);
-    }
+        String develope = "develope";
+        String education = "education";
+        String management = "management";
 
-    Boolean loadData = false;
-    if(userData.size() > 0) {
-        loadData = true;
-    }
+        //--------------------------------------------------- 1. 개발부 팀원 이름 불러오기 ------------------------------------------
 
-    // ---------------------------------------------------관리자로 로그인 했을경우에 데이터 정제 
+        String devUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
+        PreparedStatement devUserQuery = connect.prepareStatement(devUserSql);
+        devUserQuery.setString(1, develope);
 
-    String develope = "develope";
-    String education = "education";
-    String management = "management";
+        ResultSet devUserResult = devUserQuery.executeQuery();
+        ArrayList<ArrayList<String>> devUserData = new ArrayList<ArrayList<String>>(); 
+        while(devUserResult.next()) {
+            ArrayList<String> devUsertmpData = new ArrayList<String>(); 
+            devUsertmpData.add("\"" + devUserResult.getString(1) + "\"");
+            devUsertmpData.add("\"" + devUserResult.getString(2) + "\"");
+            devUserData.add(devUsertmpData);
+        }
 
-    //--------------------------------------------------- 1. 개발부 팀원 이름 불러오기 
+        Boolean devDataLoad = false;
+        if(devUserData.size() > 0) {
+            devDataLoad = true;
+        }
 
-    String devUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
-    PreparedStatement devUserQuery = connect.prepareStatement(devUserSql);
-    devUserQuery.setString(1, develope);
+        //--------------------------------------------------- 2. 교육부 팀원 이름 불러오기 ------------------------------------------
+        String eduUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
+        PreparedStatement eduUserQuery = connect.prepareStatement(eduUserSql);
+        eduUserQuery.setString(1, education);
 
-    ResultSet devUserResult = devUserQuery.executeQuery();
-    ArrayList<ArrayList<String>> devUserData = new ArrayList<ArrayList<String>>(); 
-    while(devUserResult.next()) {
-        ArrayList<String> devUsertmpData = new ArrayList<String>(); 
-        devUsertmpData.add("\"" + devUserResult.getString(1) + "\"");
-        devUsertmpData.add("\"" + devUserResult.getString(2) + "\"");
-        devUserData.add(devUsertmpData);
-    }
+        ResultSet eduUserResult = eduUserQuery.executeQuery();
+        ArrayList<ArrayList<String>> eduUserData = new ArrayList<ArrayList<String>>(); 
+        while(eduUserResult.next()) {
+            ArrayList<String> eduUsertmpData = new ArrayList<String>(); 
+            eduUsertmpData.add("\"" + eduUserResult.getString(1) + "\"");
+            eduUsertmpData.add("\"" + eduUserResult.getString(2) + "\"");
+            eduUserData.add(eduUsertmpData);
+        }
 
-    Boolean devDataLoad = false;
-    if(devUserData.size() > 0) {
-        devDataLoad = true;
-    }
+        Boolean eduDataLoad = false;
+        if(eduUserData.size() > 0) {
+            eduDataLoad = true;
+        }
 
-    //--------------------------------------------------- 2. 교육부 팀원 이름 불러오기 
-    String eduUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
-    PreparedStatement eduUserQuery = connect.prepareStatement(eduUserSql);
-    eduUserQuery.setString(1, education);
+        //--------------------------------------------------- 3. 운영부 팀원 이름 불러오기 ------------------------------------------
+        String manageUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
+        PreparedStatement manageUserSqlUserQuery = connect.prepareStatement(manageUserSql);
+        manageUserSqlUserQuery.setString(1, management);
 
-    ResultSet eduUserResult = eduUserQuery.executeQuery();
-    ArrayList<ArrayList<String>> eduUserData = new ArrayList<ArrayList<String>>(); 
-    while(eduUserResult.next()) {
-        ArrayList<String> eduUsertmpData = new ArrayList<String>(); 
-        eduUsertmpData.add("\"" + eduUserResult.getString(1) + "\"");
-        eduUsertmpData.add("\"" + eduUserResult.getString(2) + "\"");
-        eduUserData.add(eduUsertmpData);
-    }
+        ResultSet manageUserResult = manageUserSqlUserQuery.executeQuery();
+        ArrayList<ArrayList<String>> manageUserData = new ArrayList<ArrayList<String>>(); 
+        while(manageUserResult.next()) {
+            ArrayList<String> manageUsertmpData = new ArrayList<String>(); 
+            manageUsertmpData.add("\"" + manageUserResult.getString(1) + "\"");
+            manageUsertmpData.add("\"" + manageUserResult.getString(2) + "\"");
+            manageUserData.add(manageUsertmpData);
+        }
 
-    Boolean eduDataLoad = false;
-    if(eduUserData.size() > 0) {
-        eduDataLoad = true;
-    }
+        Boolean manageDataLoad = false;
+        if(manageUserData.size() > 0) {
+            manageDataLoad = true;
+        }
 
-    //--------------------------------------------------- 3. 운영부 팀원 이름 불러오기 
-    String manageUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
-    PreparedStatement manageUserSqlUserQuery = connect.prepareStatement(manageUserSql);
-    manageUserSqlUserQuery.setString(1, management);
+        //--------------------------------------------------- 불러온 팀원 이름 클릭 했을때 조회 하기 ------------------------------------------
 
-    ResultSet manageUserResult = manageUserSqlUserQuery.executeQuery();
-    ArrayList<ArrayList<String>> manageUserData = new ArrayList<ArrayList<String>>(); 
-    while(manageUserResult.next()) {
-        ArrayList<String> manageUsertmpData = new ArrayList<String>(); 
-        manageUsertmpData.add("\"" + manageUserResult.getString(1) + "\"");
-        manageUsertmpData.add("\"" + manageUserResult.getString(2) + "\"");
-        manageUserData.add(manageUsertmpData);
-    }
+        String userNumValue = request.getParameter("user_num");
+        String userCalendarLoadSql = "SELECT calendardate,calendartime,claendarcomment FROM calendar WHERE usernum=?";
+        PreparedStatement userCalendarLoadQuery = connect.prepareStatement(userCalendarLoadSql);
+        userCalendarLoadQuery.setString(1, userNumValue);
 
-    Boolean manageDataLoad = false;
-    if(manageUserData.size() > 0) {
-        manageDataLoad = true;
-    }
+        ResultSet userCalendarLoadResult = userCalendarLoadQuery.executeQuery();
+        ArrayList<ArrayList<String>> userCalendarData = new ArrayList<ArrayList<String>>(); 
+        while(userCalendarLoadResult.next()) {
+            ArrayList<String> userCalendartmpData = new ArrayList<String>(); 
+            userCalendartmpData.add("\"" + userCalendarLoadResult.getString(1) + "\"");
+            userCalendartmpData.add("\"" + userCalendarLoadResult.getString(2) + "\"");
+            userCalendartmpData.add("\"" + userCalendarLoadResult.getString(3) + "\"");
+            userCalendarData.add(userCalendartmpData);
+        }
+
+        Boolean userCalendarLoad = false;
+        if(userCalendarData.size() > 0) {
+            userCalendarLoad = true;
+        }
+
+ 
+
 %>
 <head>
     <meta charset="UTF-8">
@@ -215,15 +244,23 @@
     </main>
     <script>
 
+        function falutAccess() {
+            if(<%=isSession%> == false) {
+                location.href = "loginPage.jsp"
+            }
+        }
+        falutAccess()
         function login() {
-            if(<%=isLogin%> == true){
-            alert("로그인 성공")
             var jspUserName = <%=userName%>
             var userNameTag = document.getElementById("user-name")
-            userNameTag.innerHTML = jspUserName
-        }
+            if(<%=isLogin%> == true){
+                userNameTag.innerHTML = jspUserName
+            }
+            else if(<%=isSession%> == true){
+                userNameTag.innerHTML = jspUserName
+            }
             else{
-                alert("로그인 실패하였습니다.")
+                alert("로그인 실패")
                 location.href = "loginPage.jsp"
             }        
         }
@@ -424,7 +461,8 @@
         // 직책이 leader 이거나 admin 일 경우에만 nav 버튼 보이게 
         function showNavButton() {
             var navButtonTag = document.getElementById("nav-button")
-            if(<%=userPosition%> == "leader" || <%=userPosition%> == "admin") {
+            var userPosition =  <%=userPosition%>
+            if(userPosition == "leader" || userPosition == "admin") {
                 navButtonTag.style.display = "inline-block"
                 
             }
@@ -443,8 +481,9 @@
 
         function LeaderUserDataLoad() {
             var rightNavTag = document.getElementsByClassName("right-side-nav") // nav 펼첬을때 공간 불러오기 
-            if(<%=userPosition%> == "leader") {
-                var userDepart = "<%=userDepart%>"
+            var userPosition =  <%=userPosition%>
+            if(userPosition == "leader") {
+                var userDepart = "<%=UserDepart%>"
                 var navHeaderTag = document.createElement("p") // 제목 공간 만들기 
                 navHeaderTag.classList.add("nav-header")
                 rightNavTag[0].appendChild(navHeaderTag)
@@ -485,8 +524,10 @@
 
         function adminUserDataLoad() {
             var rightNavTag = document.getElementsByClassName("right-side-nav")
+            var userPosition = <%=userPosition%>
+            
             //---------------------- admin 일때 Nav Container 구성 만들기 // ex 각 부서 제목칸이나 사원 들어갈 공간 ------------------------------------------
-            if(<%=userPosition%> == "admin"){
+            if(userPosition == "admin"){
                 var departContainerArray = [] // 3개의 부서공간에 각각에 접근할수 있도록 배열로 만듬
                 var navHeaderArray = []
                 for(var i = 0; i < 3; i++){
@@ -567,6 +608,70 @@
             }
         }
         adminUserDataLoad()
+
+        function accessdevUser() {
+            var userNameDataContainerTag = document.getElementsByClassName("user-name-data-container")
+            for(var i = 0; i < userNameDataContainerTag.length; i++){
+                userNameDataContainerTag[i].addEventListener("click",function(e){
+                var userNumTag = e.currentTarget.children[1]
+                var userNumValue = userNumTag.textContent
+                
+                var inputTag = document.createElement("input")
+                var idInput = document.createElement("input")
+                var pwInput = document.createElement("input")
+                var idValue = "<%=idValue%>"
+                var pwValue = "<%=pwValue%>"
+                var formTag = document.createElement("form")
+
+                inputTag.setAttribute("type","hidden")
+                inputTag.setAttribute("name","user_num")
+                inputTag.setAttribute("value",userNumValue)
+
+                idInput.setAttribute("type","hidden")
+                idInput.setAttribute("name","id_value")
+                idInput.setAttribute("value",idValue)
+
+                pwInput.setAttribute("type","hidden")
+                pwInput.setAttribute("name","pw_value")
+                pwInput.setAttribute("value",pwValue)
+
+                document.body.appendChild(formTag)
+                formTag.append(inputTag,idInput,pwInput)
+                formTag.action = "CalendarPage.jsp"
+                formTag.submit()
+                })
+            }
+        }
+        accessdevUser()
+
+        function loadUserCalendarData() {
+            if(<%=userCalendarLoad%> == true) {
+                var jspList = <%=userCalendarData%>
+                var calendarListTag = document.getElementById("calendar-list")
+
+                for(var j =0; j < jspList.length; j++) {
+                    var tmpPtagArry = []
+                    var tmpCalendar = document.createElement("div") 
+
+                    tmpCalendar.classList.add("calendar")
+                    calendarListTag.append(tmpCalendar)  
+                    
+                    for(var k = 0; k < jspList[0].length; k++) {
+                        var tmpPTag = document.createElement("p")
+                        tmpPtagArry.push(tmpPTag)
+                        tmpPTag.innerHTML = jspList[j][k]
+                        tmpCalendar.append(tmpPTag)
+                    }
+
+                    tmpPtagArry[0].classList.add("date-data")
+                    tmpPtagArry[1].classList.add("calendar-data")
+                    tmpPtagArry[2].classList.add("time-data")
+                    tmpPtagArry[3].classList.add("display-disabled")
+                    
+                }
+            }
+        }
+        loadUserCalendarData()
     </script>
 </body>
 
