@@ -4,6 +4,8 @@
 <%@ page import="java.sql.PreparedStatement" %> 
 <%@ page import="java.sql.ResultSet" %> 
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Calendar" %>
 
 
@@ -66,6 +68,10 @@
         isSession = true;
     }
 
+    Date today = new Date();
+    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+    String now = sf.format(today);
+    
     Calendar cal = Calendar.getInstance(); // 현재 실시간 데이터 서버에서 받아옴
     int year = cal.get(Calendar.YEAR); // cal 객체에서 해당 데이터 년도만 받아옴 
     int month = cal.get(Calendar.MONTH)+1; // cal 객체에서 해당 데이터 월만 받아옴
@@ -262,15 +268,13 @@
         </section>
     </main>
     <script>
-
-
-
         function falutAccess() {
             if(<%=isSession%> == false) {
                 location.href = "loginPage.jsp"
             }
         }
         falutAccess()
+
         function login() {
             var jspUserName = <%=userName%>
             var userNameTag = document.getElementById("user-name")
@@ -296,7 +300,6 @@
                 alert("로그아웃 완료")
                 location.href = "LogOutModule.jsp"
             }
-
         }
 
         function previousEvent() {
@@ -366,7 +369,6 @@
         window.onload = function(){
             
             if(<%=isLoad%> == true){
-                
 
                 var jspList = <%=calendarData%>
                 var calendarListTag = document.getElementById("calendar-list")
@@ -393,6 +395,19 @@
                     tmpPtagArry[1].classList.add("calendar-data")
                     tmpPtagArry[2].classList.add("time-data")
                     tmpPtagArry[3].classList.add("display-disabled")
+
+                    
+                    function lineThroughEvent() {
+                        var now = "<%=now%>"
+                        var dateDataTag = document.getElementsByClassName("date-data")
+                        var dateDataText = dateDataTag[j].textContent
+                        var calendarTag = document.getElementsByClassName("calendar")
+                        console.log(now > dateDataText)
+                        if(now > dateDataText) {
+                            calendarTag[j].style.textDecoration = "line-through"
+                        }
+                    }
+                    lineThroughEvent()
                     
                     function createOptionBtn() {
                         var optionBtnContainerTag = document.getElementsByClassName("option-btn-container")
@@ -750,11 +765,11 @@
                     for(var j = 0; j < myCalendarData.length; j++) {
                         calendarTag[j].style.display = "none"
                     }
-                    console.log(calendarTag[0])
                 })
             }
         }
         hideCalendar()
+
     </script>
 </body>
 
