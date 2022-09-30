@@ -4,6 +4,11 @@
 <%@ page import="java.sql.PreparedStatement" %> 
 <%@ page import="java.sql.ResultSet" %> 
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Calendar" %>
+
+
+
+
 
 <%-- // 자바스크립트에서 문자열로 만들어주려면 쌍따옴표 혹은 곁따옴표를 붙여줘야 한다
 // 그래야만 문자열로 인식하고 숫자도 양옆에 쌍따옴표 혹은 곁따옴표를 붙여주면 문자로 만들수 있다
@@ -18,197 +23,211 @@
 
 <%
     request.setCharacterEncoding("utf-8");
+    
+    String idValue = request.getParameter("id_value"); // loginPage에서 받아옴
+    String pwValue = request.getParameter("pw_value"); // loginPage에서 받아옴 
+    
+    Class.forName("com.mysql.jdbc.Driver");
+    Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/daily","dongho","1234");
 
-        String idValue = request.getParameter("id_value"); // loginPage에서 받아옴
-        String pwValue = request.getParameter("pw_value"); // loginPage에서 받아옴 
+
+    String sql = "SELECT usernum,username,userposition,userdepartment FROM user WHERE userid=? AND userpw=?";
+    PreparedStatement query = connect.prepareStatement(sql);
+    query.setString(1, idValue);
+    query.setString(2, pwValue);
+
+    ResultSet result = query.executeQuery();
+    ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(); 
+    while(result.next()) {
+        ArrayList<String> tmpData = new ArrayList<String>(); 
+        tmpData.add(result.getString(1));
+        tmpData.add("\"" + result.getString(2) + "\"");
+        tmpData.add("\"" + result.getString(3) + "\"");
+        tmpData.add(result.getString(4));
+        data.add(tmpData);
+    }
+    
+    Boolean isLogin = false;
+    if (data.size() > 0) {
+        isLogin = true;
+        session.setAttribute("userNumValue",data.get(0).get(0));
+        session.setAttribute("userNameValue",data.get(0).get(1));
+        session.setAttribute("userPositionValue",data.get(0).get(2));
+        session.setAttribute("userDepartValue",data.get(0).get(3));
+    }
+
+    String userNumSession = (String)session.getAttribute("userNumValue");
+    String userName = (String)session.getAttribute("userNameValue");
+    String UserDepart = (String)session.getAttribute("userDepartValue");
+    String userPosition = (String)session.getAttribute("userPositionValue");
+
+    Boolean isSession = false;
+    if(userNumSession != null) {
+        isSession = true;
+    }
+
+    Calendar cal = Calendar.getInstance(); // 현재 실시간 데이터 서버에서 받아옴
+    int year = cal.get(Calendar.YEAR); // cal 객체에서 해당 데이터 년도만 받아옴 
+    int month = cal.get(Calendar.MONTH)+1; // cal 객체에서 해당 데이터 월만 받아옴
+    String IntChangeMonth = String.format("%02d",month); //앞에 0 붙이기 sql 문 조건 검색 할때 9가 아닌 09 로 검색되게끔
+    int StringChangeMonth = Integer.parseInt(IntChangeMonth); // 문자 09를 숫자 09로 바꾸기
+
+    String sYear = request.getParameter("year"); // 년 받아옴
+    String sMonth = request.getParameter("month"); // 월 받아옴 
+
+    if(sYear != null && sMonth != null) {
+        year = Integer.parseInt(sYear);
+        StringChangeMonth = Integer.parseInt(sMonth);
+    }
+
+    cal.set(year, StringChangeMonth-1,1);
+    year = cal.get(Calendar.YEAR);
+    StringChangeMonth = cal.get(Calendar.MONTH)+1;
+
+    String calendarSql = "SELECT calendardate,claendarcomment,calendartime,calendarnum FROM calendar WHERE usernum=? AND DATE_FORMAT(calendardate,'%Y')=? AND DATE_FORMAT(calendardate, '%m')=? ORDER BY calendardate,calendartime";
+    PreparedStatement calendarQuery = connect.prepareStatement(calendarSql);
+    calendarQuery.setString(1, userNumSession);
+    calendarQuery.setString(2, sYear);
+    calendarQuery.setString(3, sMonth);
+
+    ResultSet calendarResult = calendarQuery.executeQuery();
+    ArrayList<ArrayList<String>> calendarData = new ArrayList<ArrayList<String>>(); 
+    while(calendarResult.next()) {
+        ArrayList<String> calendarTmpData = new ArrayList<String>(); 
+        calendarTmpData.add("\"" + calendarResult.getString(1) + "\"");
+        calendarTmpData.add("\"" + calendarResult.getString(2) + "\"");
+        calendarTmpData.add("\"" + calendarResult.getString(3) + "\"");
+        calendarTmpData.add("\"" + calendarResult.getString(4) + "\"");
+        calendarData.add(calendarTmpData);
+    }
+
+    Boolean isLoad = false;
+    if(calendarData.size() > 0){
+        isLoad = true;
+    }
         
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/daily","dongho","1234");
+    // ---------------------------------------------------팀장으로 로그인 했을경우에 데이터 정제 ---------------------------------------------------
+    String userDataSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
+    PreparedStatement userDataQuery = connect.prepareStatement(userDataSql);
+    userDataQuery.setString(1, UserDepart);
 
+    ResultSet userDataResult = userDataQuery.executeQuery();
+    ArrayList<ArrayList<String>> userData = new ArrayList<ArrayList<String>>(); 
+    while(userDataResult.next()) {
+        ArrayList<String> userTmpData = new ArrayList<String>(); 
+        userTmpData.add("\"" + userDataResult.getString(1) + "\"");
+        userTmpData.add("\"" + userDataResult.getString(2) + "\"");
+        userData.add(userTmpData);
+    }
 
-        String sql = "SELECT usernum,username,userposition,userdepartment FROM user WHERE userid=? AND userpw=?";
-        PreparedStatement query = connect.prepareStatement(sql);
-        query.setString(1, idValue);
-        query.setString(2, pwValue);
+    Boolean loadData = false;
+    if(userData.size() > 0) {
+        loadData = true;
+    }
 
-        ResultSet result = query.executeQuery();
-        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>(); 
-        while(result.next()) {
-            ArrayList<String> tmpData = new ArrayList<String>(); 
-            tmpData.add(result.getString(1));
-            tmpData.add("\"" + result.getString(2) + "\"");
-            tmpData.add("\"" + result.getString(3) + "\"");
-            tmpData.add(result.getString(4));
-            data.add(tmpData);
-        }
-        
-        Boolean isLogin = false;
-        if (data.size() > 0) {
-            isLogin = true;
-            session.setAttribute("userNumValue",data.get(0).get(0));
-            session.setAttribute("userNameValue",data.get(0).get(1));
-            session.setAttribute("userPositionValue",data.get(0).get(2));
-            session.setAttribute("userDepartValue",data.get(0).get(3));
-        }
+    // ---------------------------------------------------관리자로 로그인 했을경우에 데이터 정제 ------------------------------------------
 
-        String userNumSession = (String)session.getAttribute("userNumValue");
-        String userName = (String)session.getAttribute("userNameValue");
-        String UserDepart = (String)session.getAttribute("userDepartValue");
-        String userPosition = (String)session.getAttribute("userPositionValue");
+    String develope = "develope";
+    String education = "education";
+    String management = "management";
 
-        Boolean isSession = false;
-        if(userNumSession != null) {
-            isSession = true;
-        }
+    //--------------------------------------------------- 1. 개발부 팀원 이름 불러오기 ------------------------------------------
 
-        String calendarSql = "SELECT calendardate,claendarcomment,calendartime,calendarnum FROM calendar WHERE usernum=? ORDER BY calendardate";
-        PreparedStatement calendarQuery = connect.prepareStatement(calendarSql);
-        calendarQuery.setString(1, userNumSession);
+    String devUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
+    PreparedStatement devUserQuery = connect.prepareStatement(devUserSql);
+    devUserQuery.setString(1, develope);
 
-        ResultSet calendarResult = calendarQuery.executeQuery();
-        ArrayList<ArrayList<String>> calendarData = new ArrayList<ArrayList<String>>(); 
-        while(calendarResult.next()) {
-            ArrayList<String> calendarTmpData = new ArrayList<String>(); 
-            calendarTmpData.add("\"" + calendarResult.getString(1) + "\"");
-            calendarTmpData.add("\"" + calendarResult.getString(2) + "\"");
-            calendarTmpData.add("\"" + calendarResult.getString(3) + "\"");
-            calendarTmpData.add("\"" + calendarResult.getString(4) + "\"");
-            calendarData.add(calendarTmpData);
-        }
+    ResultSet devUserResult = devUserQuery.executeQuery();
+    ArrayList<ArrayList<String>> devUserData = new ArrayList<ArrayList<String>>(); 
+    while(devUserResult.next()) {
+        ArrayList<String> devUsertmpData = new ArrayList<String>(); 
+        devUsertmpData.add("\"" + devUserResult.getString(1) + "\"");
+        devUsertmpData.add("\"" + devUserResult.getString(2) + "\"");
+        devUserData.add(devUsertmpData);
+    }
 
-        Boolean isLoad = false;
-        if(calendarData.size() > 0){
-            isLoad = true;
-        }
-        if(userPosition == "leader"){
-            
-            // 팀장으로 로그인 했을경우에 데이터 정제 
-            String userDataSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
-            PreparedStatement userDataQuery = connect.prepareStatement(userDataSql);
-            userDataQuery.setString(1, UserDepart);
+    Boolean devDataLoad = false;
+    if(devUserData.size() > 0) {
+        devDataLoad = true;
+    }
 
-            ResultSet userDataResult = userDataQuery.executeQuery();
-            ArrayList<ArrayList<String>> userData = new ArrayList<ArrayList<String>>(); 
-            while(userDataResult.next()) {
-                ArrayList<String> userTmpData = new ArrayList<String>(); 
-                userTmpData.add("\"" + userDataResult.getString(1) + "\"");
-                userTmpData.add("\"" + userDataResult.getString(2) + "\"");
-                userData.add(userTmpData);
-            }
+    //--------------------------------------------------- 2. 교육부 팀원 이름 불러오기 ------------------------------------------
+    String eduUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
+    PreparedStatement eduUserQuery = connect.prepareStatement(eduUserSql);
+    eduUserQuery.setString(1, education);
 
-            Boolean loadData = false;
-            if(userData.size() > 0) {
-                loadData = true;
-            }
-        }
+    ResultSet eduUserResult = eduUserQuery.executeQuery();
+    ArrayList<ArrayList<String>> eduUserData = new ArrayList<ArrayList<String>>(); 
+    while(eduUserResult.next()) {
+        ArrayList<String> eduUsertmpData = new ArrayList<String>(); 
+        eduUsertmpData.add("\"" + eduUserResult.getString(1) + "\"");
+        eduUsertmpData.add("\"" + eduUserResult.getString(2) + "\"");
+        eduUserData.add(eduUsertmpData);
+    }
 
-  
-        // ---------------------------------------------------관리자로 로그인 했을경우에 데이터 정제 ------------------------------------------
+    Boolean eduDataLoad = false;
+    if(eduUserData.size() > 0) {
+        eduDataLoad = true;
+    }
 
-        String develope = "develope";
-        String education = "education";
-        String management = "management";
+    //--------------------------------------------------- 3. 운영부 팀원 이름 불러오기 ------------------------------------------
+    String manageUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
+    PreparedStatement manageUserSqlUserQuery = connect.prepareStatement(manageUserSql);
+    manageUserSqlUserQuery.setString(1, management);
 
-        //--------------------------------------------------- 1. 개발부 팀원 이름 불러오기 ------------------------------------------
+    ResultSet manageUserResult = manageUserSqlUserQuery.executeQuery();
+    ArrayList<ArrayList<String>> manageUserData = new ArrayList<ArrayList<String>>(); 
+    while(manageUserResult.next()) {
+        ArrayList<String> manageUsertmpData = new ArrayList<String>(); 
+        manageUsertmpData.add("\"" + manageUserResult.getString(1) + "\"");
+        manageUsertmpData.add("\"" + manageUserResult.getString(2) + "\"");
+        manageUserData.add(manageUsertmpData);
+    }
 
-        String devUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
-        PreparedStatement devUserQuery = connect.prepareStatement(devUserSql);
-        devUserQuery.setString(1, develope);
+    Boolean manageDataLoad = false;
+    if(manageUserData.size() > 0) {
+        manageDataLoad = true;
+    }
 
-        ResultSet devUserResult = devUserQuery.executeQuery();
-        ArrayList<ArrayList<String>> devUserData = new ArrayList<ArrayList<String>>(); 
-        while(devUserResult.next()) {
-            ArrayList<String> devUsertmpData = new ArrayList<String>(); 
-            devUsertmpData.add("\"" + devUserResult.getString(1) + "\"");
-            devUsertmpData.add("\"" + devUserResult.getString(2) + "\"");
-            devUserData.add(devUsertmpData);
-        }
+    //--------------------------------------------------- 불러온 팀원 이름 클릭 했을때 조회 하기 ------------------------------------------
 
-        Boolean devDataLoad = false;
-        if(devUserData.size() > 0) {
-            devDataLoad = true;
-        }
+    String userNumValue = request.getParameter("user_num");
+    String userCalendarLoadSql = "SELECT calendardate,claendarcomment, calendartime FROM calendar WHERE usernum=? ORDER BY calendardate,calendartime";
+    PreparedStatement userCalendarLoadQuery = connect.prepareStatement(userCalendarLoadSql);
+    userCalendarLoadQuery.setString(1, userNumValue);
 
-        //--------------------------------------------------- 2. 교육부 팀원 이름 불러오기 ------------------------------------------
-        String eduUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
-        PreparedStatement eduUserQuery = connect.prepareStatement(eduUserSql);
-        eduUserQuery.setString(1, education);
+    ResultSet userCalendarLoadResult = userCalendarLoadQuery.executeQuery();
+    ArrayList<ArrayList<String>> userCalendarData = new ArrayList<ArrayList<String>>(); 
+    while(userCalendarLoadResult.next()) {
+        ArrayList<String> userCalendartmpData = new ArrayList<String>(); 
+        userCalendartmpData.add("\"" + userCalendarLoadResult.getString(1) + "\"");
+        userCalendartmpData.add("\"" + userCalendarLoadResult.getString(2) + "\"");
+        userCalendartmpData.add("\"" + userCalendarLoadResult.getString(3) + "\"");
+        userCalendarData.add(userCalendartmpData);
+    }
 
-        ResultSet eduUserResult = eduUserQuery.executeQuery();
-        ArrayList<ArrayList<String>> eduUserData = new ArrayList<ArrayList<String>>(); 
-        while(eduUserResult.next()) {
-            ArrayList<String> eduUsertmpData = new ArrayList<String>(); 
-            eduUsertmpData.add("\"" + eduUserResult.getString(1) + "\"");
-            eduUsertmpData.add("\"" + eduUserResult.getString(2) + "\"");
-            eduUserData.add(eduUsertmpData);
-        }
-
-        Boolean eduDataLoad = false;
-        if(eduUserData.size() > 0) {
-            eduDataLoad = true;
-        }
-
-        //--------------------------------------------------- 3. 운영부 팀원 이름 불러오기 ------------------------------------------
-        String manageUserSql = "SELECT username,usernum FROM user WHERE userdepartment=?";
-        PreparedStatement manageUserSqlUserQuery = connect.prepareStatement(manageUserSql);
-        manageUserSqlUserQuery.setString(1, management);
-
-        ResultSet manageUserResult = manageUserSqlUserQuery.executeQuery();
-        ArrayList<ArrayList<String>> manageUserData = new ArrayList<ArrayList<String>>(); 
-        while(manageUserResult.next()) {
-            ArrayList<String> manageUsertmpData = new ArrayList<String>(); 
-            manageUsertmpData.add("\"" + manageUserResult.getString(1) + "\"");
-            manageUsertmpData.add("\"" + manageUserResult.getString(2) + "\"");
-            manageUserData.add(manageUsertmpData);
-        }
-
-        Boolean manageDataLoad = false;
-        if(manageUserData.size() > 0) {
-            manageDataLoad = true;
-        }
-
-        //--------------------------------------------------- 불러온 팀원 이름 클릭 했을때 조회 하기 ------------------------------------------
-
-        String userNumValue = request.getParameter("user_num");
-        String userCalendarLoadSql = "SELECT calendardate,calendartime,claendarcomment FROM calendar WHERE usernum=?";
-        PreparedStatement userCalendarLoadQuery = connect.prepareStatement(userCalendarLoadSql);
-        userCalendarLoadQuery.setString(1, userNumValue);
-
-        ResultSet userCalendarLoadResult = userCalendarLoadQuery.executeQuery();
-        ArrayList<ArrayList<String>> userCalendarData = new ArrayList<ArrayList<String>>(); 
-        while(userCalendarLoadResult.next()) {
-            ArrayList<String> userCalendartmpData = new ArrayList<String>(); 
-            userCalendartmpData.add("\"" + userCalendarLoadResult.getString(1) + "\"");
-            userCalendartmpData.add("\"" + userCalendarLoadResult.getString(2) + "\"");
-            userCalendartmpData.add("\"" + userCalendarLoadResult.getString(3) + "\"");
-            userCalendarData.add(userCalendartmpData);
-        }
-
-        Boolean userCalendarLoad = false;
-        if(userCalendarData.size() > 0) {
-            userCalendarLoad = true;
-        }
-
- 
-
+    Boolean userCalendarLoad = false;
+    if(userCalendarData.size() > 0) {
+        userCalendarLoad = true;
+    }
 %>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="CalendarPage/Calendar_page.css" type="text/css">
+    <link rel="stylesheet" href="css/CalendarPage/Calendar_page.css" type="text/css">
     <script src="https://kit.fontawesome.com/bec76863d9.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
-        <p id="header-project-name">Daily</p>
+        <p id="header-project-name" onclick="refreshEvent()">Daily</p>
         <article id="header-date-container">
-                <button class="arrow-button" onclick="minusMonth()">
+                <button type="button" class="arrow-button" onclick="previousEvent()">
                     <i class="fa-solid fa-caret-left"></i>
                 </button>
             <p id="header-date"></p>
-                <button class="arrow-button" onclick="plusMonth()">
+                <button type="button" class="arrow-button" onclick="nextEvent()">
                     <i class="fa-solid fa-caret-right"></i>
                 </button>
         </article>
@@ -244,6 +263,8 @@
     </main>
     <script>
 
+
+
         function falutAccess() {
             if(<%=isSession%> == false) {
                 location.href = "loginPage.jsp"
@@ -260,11 +281,14 @@
                 userNameTag.innerHTML = jspUserName
             }
             else{
-                alert("로그인 실패")
                 location.href = "loginPage.jsp"
             }        
         }
         login()
+
+        function refreshEvent() {
+            location.href = "CalendarPage.jsp"
+        }
 
         function logout() {
             var logoutConfirm = confirm("정말로 로그아웃 하시겠습니까?")
@@ -275,6 +299,57 @@
 
         }
 
+        function previousEvent() {
+            var form = document.createElement("form")
+            var yearValue = document.createElement("input")
+            var MonthValue = document.createElement("input")
+      
+            yearValue.setAttribute("type","hidden")
+            yearValue.setAttribute("value",<%=year%>)
+            yearValue.setAttribute("name","year")
+
+            MonthValue.setAttribute("type","hidden")
+            MonthValue.setAttribute("value","0"+<%=StringChangeMonth-1%>)
+            MonthValue.setAttribute("name","month")
+
+            document.body.appendChild(form)
+
+            form.append(yearValue,MonthValue)
+
+            form.action="CalendarPage.jsp"
+            form.submit()
+        
+        }
+
+        function makeDate() {
+            var todayY = <%=year%>
+            var todayM = <%=StringChangeMonth%>
+            var headerDateTag = document.getElementById("header-date")
+            headerDateTag.innerHTML = todayY + "/" +  todayM
+        }
+        makeDate()
+
+        function nextEvent() {
+            var form = document.createElement("form")
+            var yearValue = document.createElement("input")
+            var MonthValue = document.createElement("input")
+
+            yearValue.setAttribute("type","hidden")
+            yearValue.setAttribute("value",<%=year%>)
+            yearValue.setAttribute("name","year")
+
+            MonthValue.setAttribute("type","hidden")
+            MonthValue.setAttribute("value","0"+<%=StringChangeMonth+1%>)
+            MonthValue.setAttribute("name","month")
+
+            document.body.appendChild(form)
+
+            form.append(yearValue,MonthValue)
+
+            form.action="CalendarPage.jsp"
+            form.submit()
+        }
+       
         function addCalendar() {
             var addForm = document.addform
             var dateData = document.getElementsByClassName("calendar-data-input")
@@ -289,7 +364,10 @@
         }
 
         window.onload = function(){
+            
             if(<%=isLoad%> == true){
+                
+
                 var jspList = <%=calendarData%>
                 var calendarListTag = document.getElementById("calendar-list")
 
@@ -466,9 +544,6 @@
                 navButtonTag.style.display = "inline-block"
                 
             }
-            else{
-                return
-            }
         }
         showNavButton()
 
@@ -545,115 +620,109 @@
                 navHeaderArray[0].innerHTML = "개발부"
                 navHeaderArray[1].innerHTML = "교육부"
                 navHeaderArray[2].innerHTML = "운영부"
-            }  
+            
             //------------------------------------------------------------------개발부 사원 불러오기 -------------------------------------------------------
-            if(<%=devDataLoad%> == true) {
-                var devUserData = <%=devUserData%>
-                for(var k = 0; k < devUserData.length; k++){
-                    var tmpdivTag = document.createElement("div")
-                    var tmpPtagArrayArray = []
-                    tmpdivTag.classList.add("user-name-data-container")
-                    departContainerArray[0].appendChild(tmpdivTag)
+                if(<%=devDataLoad%> == true) {
+                    var devUserData = <%=devUserData%>
+                    for(var k = 0; k < devUserData.length; k++){
+                        var tmpdivTag = document.createElement("div")
+                        var tmpPtagArrayArray = []
+                        tmpdivTag.classList.add("user-name-data-container")
+                        departContainerArray[0].appendChild(tmpdivTag)
 
-                    for(var l = 0; l < devUserData[0].length; l++){
-                        var tmpPtag = document.createElement("p")
-                        var tmpPtagArray = []
-                        tmpPtag.innerHTML = devUserData[k][l]
-                        tmpPtag.classList.add("user-name-data")
-                        tmpPtagArray.push(tmpPtag)
-                        tmpPtagArrayArray.push(tmpPtagArray)    
-                        tmpdivTag.appendChild(tmpPtag)
+                        for(var l = 0; l < devUserData[0].length; l++){
+                            var tmpPtag = document.createElement("p")
+                            var tmpPtagArray = []
+                            tmpPtag.innerHTML = devUserData[k][l]
+                            tmpPtag.classList.add("user-name-data")
+                            tmpPtagArray.push(tmpPtag)
+                            tmpPtagArrayArray.push(tmpPtagArray)    
+                            tmpdivTag.appendChild(tmpPtag)
+                        }
                     }
                 }
-            }
             // ------------------------------------------------------------------교육부 사원 불러오기-----------------------------------------------------------
-            if(<%=eduDataLoad%> == true) {
-                var eduUserData = <%=eduUserData%>
-                for(var m = 0; m < eduUserData.length; m++){
-                    var eduTmpdivTag = document.createElement("div")
-                    var eduTmpPtagArrayArray = []
-                    eduTmpdivTag.classList.add("user-name-data-container")
-                    departContainerArray[1].appendChild(eduTmpdivTag)
+                if(<%=eduDataLoad%> == true) {
+                    var eduUserData = <%=eduUserData%>
+                    for(var m = 0; m < eduUserData.length; m++){
+                        var eduTmpdivTag = document.createElement("div")
+                        var eduTmpPtagArrayArray = []
+                        eduTmpdivTag.classList.add("user-name-data-container")
+                        departContainerArray[1].appendChild(eduTmpdivTag)
 
-                    for(var n = 0; n < eduUserData[0].length; n++){
-                        var edutmpPtag = document.createElement("p")
-                        var edutmpPtagArray = []
-                        edutmpPtag.innerHTML = eduUserData[m][n]
-                        edutmpPtag.classList.add("user-name-data")
-                        edutmpPtagArray.push(edutmpPtag)
-                        eduTmpPtagArrayArray.push(edutmpPtagArray)    
-                        eduTmpdivTag.appendChild(edutmpPtag)
+                        for(var n = 0; n < eduUserData[0].length; n++){
+                            var edutmpPtag = document.createElement("p")
+                            var edutmpPtagArray = []
+                            edutmpPtag.innerHTML = eduUserData[m][n]
+                            edutmpPtag.classList.add("user-name-data")
+                            edutmpPtagArray.push(edutmpPtag)
+                            eduTmpPtagArrayArray.push(edutmpPtagArray)    
+                            eduTmpdivTag.appendChild(edutmpPtag)
+                        }
                     }
                 }
-            }
             //------------------------------------------------------------------운영부 사원 불러오기--------------------------------------------------------
-            if(<%=manageDataLoad%> == true) {
-                var manageUserData = <%=manageUserData%>
-                for(var o = 0; o < manageUserData.length; o++){
-                    var manTmpdivTag = document.createElement("div")
-                    var manTmpPtagArrayArray = []
-                    manTmpdivTag.classList.add("user-name-data-container")
-                    departContainerArray[2].appendChild(manTmpdivTag)
+                if(<%=manageDataLoad%> == true) {
+                    var manageUserData = <%=manageUserData%>
+                    for(var o = 0; o < manageUserData.length; o++){
+                        var manTmpdivTag = document.createElement("div")
+                        var manTmpPtagArrayArray = []
+                        manTmpdivTag.classList.add("user-name-data-container")
+                        departContainerArray[2].appendChild(manTmpdivTag)
 
-                    for(var p = 0; p < manageUserData[0].length; p++){
-                        var mantmpPtag = document.createElement("p")
-                        var mantmpPtagArray = []
-                        mantmpPtag.innerHTML = manageUserData[o][p]
-                        mantmpPtag.classList.add("user-name-data")
-                        mantmpPtagArray.push(mantmpPtag)
-                        manTmpPtagArrayArray.push(mantmpPtagArray)    
-                        manTmpdivTag.appendChild(mantmpPtag)
+                        for(var p = 0; p < manageUserData[0].length; p++){
+                            var mantmpPtag = document.createElement("p")
+                            var mantmpPtagArray = []
+                            mantmpPtag.innerHTML = manageUserData[o][p]
+                            mantmpPtag.classList.add("user-name-data")
+                            mantmpPtagArray.push(mantmpPtag)
+                            manTmpPtagArrayArray.push(mantmpPtagArray)    
+                            manTmpdivTag.appendChild(mantmpPtag)
+                        }
                     }
                 }
             }
         }
         adminUserDataLoad()
 
-        function accessdevUser() {
+
+        function accessUser() {
             var userNameDataContainerTag = document.getElementsByClassName("user-name-data-container")
+             // 팀장혹은 관리자 가 팀원 클릭했을때, 자신의 일정 목록 데이터 담긴 공간 불러오기 
+         
             for(var i = 0; i < userNameDataContainerTag.length; i++){
                 userNameDataContainerTag[i].addEventListener("click",function(e){
-                var userNumTag = e.currentTarget.children[1]
-                var userNumValue = userNumTag.textContent
-                
-                var inputTag = document.createElement("input")
-                var idInput = document.createElement("input")
-                var pwInput = document.createElement("input")
-                var idValue = "<%=idValue%>"
-                var pwValue = "<%=pwValue%>"
-                var formTag = document.createElement("form")
 
-                inputTag.setAttribute("type","hidden")
-                inputTag.setAttribute("name","user_num")
-                inputTag.setAttribute("value",userNumValue)
+                    var userNumTag = e.currentTarget.children[1]
+                    var userNumValue = userNumTag.textContent
+                    var inputTag = document.createElement("input")
+                    var formTag = document.createElement("form")
 
-                idInput.setAttribute("type","hidden")
-                idInput.setAttribute("name","id_value")
-                idInput.setAttribute("value",idValue)
-
-                pwInput.setAttribute("type","hidden")
-                pwInput.setAttribute("name","pw_value")
-                pwInput.setAttribute("value",pwValue)
-
-                document.body.appendChild(formTag)
-                formTag.append(inputTag,idInput,pwInput)
-                formTag.action = "CalendarPage.jsp"
-                formTag.submit()
-                })
+                    inputTag.setAttribute("type","hidden")
+                    inputTag.setAttribute("name","user_num")
+                    inputTag.setAttribute("value",userNumValue)
+                    console.log(userNumValue)
+                    document.body.appendChild(formTag)
+                    formTag.append(inputTag)
+                    formTag.action = "CalendarPage.jsp"
+                    formTag.submit()
+                    })
+                    
+                }
             }
-        }
-        accessdevUser()
+        accessUser()
 
+        //클릭한 팀원 일정 보여주기 
         function loadUserCalendarData() {
             if(<%=userCalendarLoad%> == true) {
                 var jspList = <%=userCalendarData%>
                 var calendarListTag = document.getElementById("calendar-list")
-
+            
                 for(var j =0; j < jspList.length; j++) {
                     var tmpPtagArry = []
                     var tmpCalendar = document.createElement("div") 
 
-                    tmpCalendar.classList.add("calendar")
+                    tmpCalendar.classList.add("AccessUsercalendar")
                     calendarListTag.append(tmpCalendar)  
                     
                     for(var k = 0; k < jspList[0].length; k++) {
@@ -666,12 +735,26 @@
                     tmpPtagArry[0].classList.add("date-data")
                     tmpPtagArry[1].classList.add("calendar-data")
                     tmpPtagArry[2].classList.add("time-data")
-                    tmpPtagArry[3].classList.add("display-disabled")
-                    
                 }
             }
         }
         loadUserCalendarData()
+
+        function hideCalendar() {
+            var userNameDataContainerTag = document.getElementsByClassName("user-name-data-container")
+            
+            for(var i = 0; i < userNameDataContainerTag.length; i++){
+                userNameDataContainerTag[i].addEventListener("click",function(e){
+                    var calendarTag = document.getElementsByClassName("calendar")
+                    var myCalendarData = <%=calendarData%>  // 자기 자신 일정목록 데이터 
+                    for(var j = 0; j < myCalendarData.length; j++) {
+                        calendarTag[j].style.display = "none"
+                    }
+                    console.log(calendarTag[0])
+                })
+            }
+        }
+        hideCalendar()
     </script>
 </body>
 

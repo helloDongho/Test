@@ -55,6 +55,7 @@
             alert("사용 가능한 아이디 입니다.")
             window.opener.document.getElementById("check-dul").value="true"
             window.opener.document.getElementById("id-data").value = idTag.value
+            window.opener.document.getElementById("id-data").readOnly = true
             window.close()     
         }
     }

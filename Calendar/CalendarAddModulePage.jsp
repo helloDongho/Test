@@ -15,20 +15,19 @@
         response.sendRedirect("loginPage.jsp");
         return;
     } 
-    else {
 
-        String calendarDate = request.getParameter("calendar_date");
-        String calendarTime = request.getParameter("calendar_time");
-        String calendarContent = request.getParameter("calendar_content");
+    String calendarDate = request.getParameter("calendar_date");
+    String calendarTime = request.getParameter("calendar_time");
+    String calendarContent = request.getParameter("calendar_content");
 
-        String sql = "INSERT INTO calendar(calendardate,calendartime,claendarcomment,usernum) VALUES(?, ? ,? ,?)";
-        
-        PreparedStatement query = connect.prepareStatement(sql);
-        query.setString(1, calendarDate);
-        query.setString(2, calendarTime);
-        query.setString(3, calendarContent);
-        query.setString(4, userNumValue);
-        query.executeUpdate();
+    String sql = "INSERT INTO calendar(calendardate,calendartime,claendarcomment,usernum) VALUES(?, ? ,? ,?)";
+    
+    PreparedStatement query = connect.prepareStatement(sql);
+    query.setString(1, calendarDate);
+    query.setString(2, calendarTime);
+    query.setString(3, calendarContent);
+    query.setString(4, userNumValue);
+    query.executeUpdate();
 %>
 <head>
     <meta charset="UTF-8">
@@ -40,11 +39,7 @@
     <script>
         window.onload = function() {
             alert("일정 추가 성공")
-            console.log(<%=userNumValue%>)
             location.href = "CalendarPage.jsp"
         }
     </script>
 </body>
-<%
-    }
-%>

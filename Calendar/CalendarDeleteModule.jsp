@@ -8,7 +8,13 @@
     request.setCharacterEncoding("utf-8");
     Class.forName("com.mysql.jdbc.Driver");
     Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/daily","dongho","1234");
-    
+
+    String userNumValue = (String)session.getAttribute("userNumValue");
+    if(userNumValue == null) {
+        response.sendRedirect("loginPage.jsp");
+        return;
+    } 
+
     String calendarNum = request.getParameter("content_num");
 
     String sql = "DELETE FROM calendar WHERE calendarnum=?";
