@@ -750,6 +750,19 @@
                     tmpPtagArry[0].classList.add("date-data")
                     tmpPtagArry[1].classList.add("calendar-data")
                     tmpPtagArry[2].classList.add("time-data")
+
+                    function lineThrough() {
+                        var now = "<%=now%>"
+                        var dateDataTag = document.getElementsByClassName("date-data")
+                        var dateDataText = dateDataTag[j].textContent
+                        var calendarTag = document.getElementsByClassName("AccessUsercalendar")
+                        console.log(now > dateDataText)
+                        if(now > dateDataText) {
+                            calendarTag[j].style.textDecoration = "line-through"
+                        }
+                    }
+                    lineThrough()
+                    
                 }
             }
         }
