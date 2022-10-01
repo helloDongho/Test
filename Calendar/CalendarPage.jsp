@@ -75,22 +75,21 @@
     Calendar cal = Calendar.getInstance(); // 현재 실시간 데이터 서버에서 받아옴
     int year = cal.get(Calendar.YEAR); // cal 객체에서 해당 데이터 년도만 받아옴 
     int month = cal.get(Calendar.MONTH)+1; // cal 객체에서 해당 데이터 월만 받아옴
-    String IntChangeMonth = String.format("%02d",month); //앞에 0 붙이기 sql 문 조건 검색 할때 9가 아닌 09 로 검색되게끔
-    int StringChangeMonth = Integer.parseInt(IntChangeMonth); // 문자 09를 숫자 09로 바꾸기
+    
 
     String sYear = request.getParameter("year"); // 년 받아옴
     String sMonth = request.getParameter("month"); // 월 받아옴 
 
     if(sYear != null && sMonth != null) {
         year = Integer.parseInt(sYear);
-        StringChangeMonth = Integer.parseInt(sMonth);
+        month = Integer.parseInt(sMonth);
     }
 
-    cal.set(year, StringChangeMonth-1,1);
+    cal.set(year, month-1,1);
     year = cal.get(Calendar.YEAR);
-    StringChangeMonth = cal.get(Calendar.MONTH)+1;
+    month = cal.get(Calendar.MONTH)+1;
 
-    String calendarSql = "SELECT calendardate,claendarcomment,calendartime,calendarnum FROM calendar WHERE usernum=? AND DATE_FORMAT(calendardate,'%Y')=? AND DATE_FORMAT(calendardate, '%m')=? ORDER BY calendardate,calendartime";
+    String calendarSql = "SELECT calendardate,claendarcomment,calendartime,calendarnum FROM calendar WHERE usernum=? AND DATE_FORMAT(calendardate,'%Y')=? AND DATE_FORMAT(calendardate, '%c')=? ORDER BY calendardate,calendartime";
     PreparedStatement calendarQuery = connect.prepareStatement(calendarSql);
     calendarQuery.setString(1, userNumSession);
     calendarQuery.setString(2, sYear);
@@ -268,6 +267,7 @@
         </section>
     </main>
     <script>
+
         function falutAccess() {
             if(<%=isSession%> == false) {
                 location.href = "loginPage.jsp"
@@ -306,13 +306,15 @@
             var form = document.createElement("form")
             var yearValue = document.createElement("input")
             var MonthValue = document.createElement("input")
-      
+
+            console.log()
+
             yearValue.setAttribute("type","hidden")
             yearValue.setAttribute("value",<%=year%>)
             yearValue.setAttribute("name","year")
 
             MonthValue.setAttribute("type","hidden")
-            MonthValue.setAttribute("value","0"+<%=StringChangeMonth-1%>)
+            MonthValue.setAttribute("value",<%=month-1%>)
             MonthValue.setAttribute("name","month")
 
             document.body.appendChild(form)
@@ -326,7 +328,7 @@
 
         function makeDate() {
             var todayY = <%=year%>
-            var todayM = <%=StringChangeMonth%>
+            var todayM = '<%=month%>'
             var headerDateTag = document.getElementById("header-date")
             headerDateTag.innerHTML = todayY + "/" +  todayM
         }
@@ -342,7 +344,7 @@
             yearValue.setAttribute("name","year")
 
             MonthValue.setAttribute("type","hidden")
-            MonthValue.setAttribute("value","0"+<%=StringChangeMonth+1%>)
+            MonthValue.setAttribute("value",<%=month+1%>)
             MonthValue.setAttribute("name","month")
 
             document.body.appendChild(form)
